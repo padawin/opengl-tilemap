@@ -14,7 +14,9 @@ GameScene::GameScene(UserActions &userActions) :
 }
 
 bool GameScene::onEnter() {
+	m_board.init();
 	m_reference = std::shared_ptr<GameObject>(new GameObject);
+	m_reference->setPosition(5.0f, 5.0f, 0.0f);
 	setCameraView(std::shared_ptr<CameraView>(new FollowView(m_reference, glm::vec3(0.0f, 0.0f, 20.0f))));
 
 	setCamera(std::shared_ptr<Camera>(new PerspectiveCamera(m_cameraView, 45.0f, 800.0f / 600.0f, 0.1f, 100.0f)));
@@ -31,5 +33,5 @@ void GameScene::update(StateMachine<SceneState> &stateMachine) {
 }
 
 void GameScene::render() {
-	//m_board.render(m_camera);
+	m_board.render(m_camera);
 }

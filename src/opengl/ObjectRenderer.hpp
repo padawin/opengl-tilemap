@@ -24,6 +24,7 @@ class ObjectRenderer : public GameObjectRenderer {
 
 	public:
 	ObjectRenderer();
+	virtual ~ObjectRenderer() {}
 	void init();
 	void setVertices(float* vertices, unsigned int* indices, int verticesCount, int indicesCount);
 	void setShaderProgram(std::string shaderProgram);
