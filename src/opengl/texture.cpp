@@ -29,7 +29,14 @@ bool texture_loadAll() {
 		if (!utils_isRegularFile(fullPath.c_str())) {
 			continue;
 		}
-		res &= _loadTexture(fname, fullPath);
+		bool loaded = _loadTexture(fname, fullPath);
+		if (loaded) {
+			std::cout << "Texture loaded: " << fullPath << std::endl;
+		}
+		else {
+			std::cerr << "Failed to load texture: " << fullPath << std::endl;
+		}
+		res &= loaded;
 	}
 	closedir(dir);
 	return true;
@@ -37,7 +44,18 @@ bool texture_loadAll() {
 
 bool _loadTexture(std::string name, std::string path) {
 	Texture t;
-	bool res;
+	// load and generate the texture
+	unsigned char* data = stbi_load(path.c_str(), &t.width, &t.height, &t.channelsCount, 0);
+	if (!data) {
+		return false;
+	}
+	texture_loadInGPU(t, data);
+	textures[name] = t;
+	stbi_image_free(data);
+	return true;
+}
+
+void texture_loadInGPU(Texture &t, unsigned char* data) {
 	glGenTextures(1, &t.textureID);
 	glBindTexture(GL_TEXTURE_2D, t.textureID);
 	// set the texture wrapping/filtering options (on the currently bound
@@ -46,23 +64,9 @@ bool _loadTexture(std::string name, std::string path) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// load and generate the texture
-	unsigned char* data = stbi_load(path.c_str(), &t.width, &t.height, &t.channelsCount, 0);
-	if (data) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, t.width, t.height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-		textures[name] = t;
-		std::cout << "Texture loaded: " << path << std::endl;
-		res = true;
-	}
-	else {
-		std::cerr << "Failed to load texture: " << path << std::endl;
-		res = false;
-	}
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, t.width, t.height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	stbi_image_free(data);
-	return res;
-
 }
 
 GLuint texture_get(const char* textureName) {
