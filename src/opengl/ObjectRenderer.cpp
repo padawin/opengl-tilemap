@@ -2,7 +2,6 @@
 #include "ObjectRenderer.hpp"
 #include "glad/glad.h"
 #include "shader.hpp"
-#include "texture.hpp"
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -54,8 +53,8 @@ void ObjectRenderer::setShaderProgram(std::string shaderProgram) {
 	m_sShaderProgram = shaderProgram;
 }
 
-void ObjectRenderer::setTexture(std::string texture) {
-	m_sTexture = texture;
+void ObjectRenderer::addTexture(unsigned int texture) {
+	m_vTexture.push_back(texture);
 }
 
 void ObjectRenderer::setScale(float x, float y, float z) {
@@ -83,7 +82,6 @@ void ObjectRenderer::setUniform(std::string name, glm::vec3 value) {
 
 void ObjectRenderer::render(std::shared_ptr<Camera> camera) {
 	GLuint shaderProgram = shader_getProgram(m_sShaderProgram.c_str());
-	GLuint texture = texture_get(m_sTexture.c_str());
 
 	float timeValue = (float) glfwGetTime();
 
@@ -99,7 +97,9 @@ void ObjectRenderer::render(std::shared_ptr<Camera> camera) {
 	int projectionLocation = glGetUniformLocation(shaderProgram, "projection");
 
 	glUseProgram(shaderProgram);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	for (auto texture : m_vTexture) {
+		glBindTexture(GL_TEXTURE_2D, texture);
+	}
 
 	glUniform1f(timeLocation, timeValue);
 	glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(model));

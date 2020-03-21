@@ -16,7 +16,7 @@ void renderer_initTilemapRenderer(ObjectRenderer *renderer, float width, float h
 
 	renderer->init();
 	renderer->setShaderProgram("tilemap");
-	renderer->setTexture(texture_get(texture.c_str()));
+	renderer->addTexture(texture_get(texture.c_str()));
 	renderer->setVertices(
 		vertices,
 		indices,

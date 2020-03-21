@@ -16,7 +16,7 @@ class ObjectRenderer : public GameObjectRenderer {
 	int m_iIndicesCount = 0;
 	// Shader program to use
 	std::string m_sShaderProgram = "default";
-	std::string m_sTexture = "";
+	std::vector<unsigned int> m_vTexture = {};
 
 	glm::mat4 m_scale;
 	glm::mat4 m_rotation;
@@ -27,7 +27,7 @@ class ObjectRenderer : public GameObjectRenderer {
 	void init();
 	void setVertices(float* vertices, unsigned int* indices, int verticesCount, int indicesCount);
 	void setShaderProgram(std::string shaderProgram);
-	void setTexture(std::string texture);
+	void addTexture(unsigned int texture);
 
 	void setScale(float x, float y, float z);
 	void setRotation(float x, float y, float z);
