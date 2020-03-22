@@ -2,8 +2,6 @@
 #include "renderers.hpp"
 #include <iostream>
 
-const glm::vec3 COLOR_SIDE = glm::vec3(0.64f, 0.64f, 0.64f);
-
 void Tilemap::init() {
 	m_fWidth = 10.0;
 	m_fHeight = 10.0;
