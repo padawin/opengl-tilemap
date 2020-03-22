@@ -12,6 +12,7 @@ const char* resourcesDir = "/../resources/";
 std::map<std::string, Texture> textures = {};
 
 bool _loadTexture(std::string name, std::string path);
+void _loadInGPU(Texture &t, unsigned char* data);
 
 bool texture_loadAll() {
 	std::string baseDir = config_getBinPath() + resourcesDir;
@@ -47,13 +48,13 @@ bool _loadTexture(std::string name, std::string path) {
 	if (!data) {
 		return false;
 	}
-	texture_loadInGPU(t, data);
+	_loadInGPU(t, data);
 	textures[name] = t;
 	stbi_image_free(data);
 	return true;
 }
 
-void texture_loadInGPU(Texture &t, unsigned char* data) {
+void _loadInGPU(Texture &t, unsigned char* data) {
 	glGenTextures(1, &t.textureID);
 	glBindTexture(GL_TEXTURE_2D, t.textureID);
 	// set the texture wrapping/filtering options (on the currently bound

@@ -12,7 +12,6 @@ typedef struct {
 } Texture;
 
 bool texture_loadAll();
-void texture_loadInGPU(Texture &t, unsigned char* data);
 GLuint texture_get(const char* textureName);
 
 #endif
