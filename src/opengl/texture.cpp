@@ -22,7 +22,6 @@ bool texture_loadAll() {
 		return false;
 	}
 
-	bool res = true;
 	while ((ent = readdir(dir)) != NULL) {
 		std::string fname = ent->d_name,
 		            fullPath = baseDir + fname;
@@ -36,7 +35,6 @@ bool texture_loadAll() {
 		else {
 			std::cerr << "Failed to load texture: " << fullPath << std::endl;
 		}
-		res &= loaded;
 	}
 	closedir(dir);
 	return true;
