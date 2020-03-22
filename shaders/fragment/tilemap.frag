@@ -3,11 +3,16 @@ out vec4 FragColor;
 
 in vec2 TexCoord;
 
-uniform sampler2D ourTexture;
-//uniform sampler2D tileAtlas;
-//uniform sampler2D tilemap;
+uniform sampler2D tileAtlas;
+uniform sampler2D tilemap;
 
 void main()
 {
-	FragColor = texture(ourTexture, TexCoord);
+	if (TexCoord.x >= 5) {
+		FragColor = texture(tilemap, TexCoord);
+	}
+	else {
+		FragColor = texture(tileAtlas, -TexCoord);
+	}
+	//FragColor = mix(texture(tilemap, TexCoord), texture(tileAtlas, -TexCoord), 0.2);
 }

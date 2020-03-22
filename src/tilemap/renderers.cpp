@@ -1,7 +1,7 @@
 #include "renderers.hpp"
 #include "opengl/texture.hpp"
 
-void renderer_initTilemapRenderer(ObjectRenderer *renderer, float width, float height, std ::string texture) {
+void renderer_initTilemapRenderer(ObjectRenderer *renderer, float width, float height) {
 	float vertices[] = {
 		// vertices        // texture    // color
 		width, height, 0.0f, width, 0.0f, // top right
@@ -16,7 +16,6 @@ void renderer_initTilemapRenderer(ObjectRenderer *renderer, float width, float h
 
 	renderer->init();
 	renderer->setShaderProgram("tilemap");
-	renderer->addTexture("tileAtlas",texture_get(texture.c_str()));
 	renderer->setVertices(
 		vertices,
 		indices,
