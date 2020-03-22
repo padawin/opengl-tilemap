@@ -103,7 +103,10 @@ void ObjectRenderer::render(std::shared_ptr<Camera> camera) {
 	glUseProgram(shaderProgram);
 	unsigned int currTexture = 0;
 	for (auto texture : m_mTextures) {
+		glActiveTexture(GL_TEXTURE0 + currTexture);
 		glBindTexture(GL_TEXTURE_2D, texture.second);
+		glUniform1i(glGetUniformLocation(shaderProgram, texture.first), (int) currTexture);
+		currTexture++;
 	}
 
 	glUniform1f(timeLocation, timeValue);
