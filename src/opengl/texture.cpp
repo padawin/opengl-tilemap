@@ -54,6 +54,14 @@ bool _loadTexture(std::string name, std::string path) {
 	return true;
 }
 
+void texture_loadData(std::string name, int width, int height, unsigned char* data) {
+	Texture t;
+	t.width = width;
+	t.height = height;
+	_loadInGPU(t, data);
+	textures[name] = t;
+}
+
 void _loadInGPU(Texture &t, unsigned char* data) {
 	glGenTextures(1, &t.textureID);
 	glBindTexture(GL_TEXTURE_2D, t.textureID);
