@@ -53,8 +53,12 @@ void ObjectRenderer::setShaderProgram(std::string shaderProgram) {
 	m_sShaderProgram = shaderProgram;
 }
 
-void ObjectRenderer::addTexture(unsigned int texture) {
-	m_vTexture.push_back(texture);
+void ObjectRenderer::addTexture(const char* name, unsigned int texture) {
+	if (m_mTextures.find(name) != m_mTextures.end()) {
+		std::cerr << "Texture " << name << " already set for object renderer\n";
+		return;
+	}
+	m_mTextures[name] = texture;
 }
 
 void ObjectRenderer::setScale(float x, float y, float z) {
@@ -97,8 +101,9 @@ void ObjectRenderer::render(std::shared_ptr<Camera> camera) {
 	int projectionLocation = glGetUniformLocation(shaderProgram, "projection");
 
 	glUseProgram(shaderProgram);
-	for (auto texture : m_vTexture) {
-		glBindTexture(GL_TEXTURE_2D, texture);
+	unsigned int currTexture = 0;
+	for (auto texture : m_mTextures) {
+		glBindTexture(GL_TEXTURE_2D, texture.second);
 	}
 
 	glUniform1f(timeLocation, timeValue);

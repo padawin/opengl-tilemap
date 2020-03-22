@@ -3,6 +3,6 @@
 
 #include "opengl/ObjectRenderer.hpp"
 
-void renderer_initTilemapRenderer(ObjectRenderer *renderer, float width, float height, std::string texture);
+void renderer_initTilemapRenderer(ObjectRenderer *renderer, float width, float height);
 
 #endif
