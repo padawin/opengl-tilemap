@@ -12,7 +12,7 @@ typedef struct {
 } Texture;
 
 bool texture_loadAll();
-void texture_loadData(std::string name, int width, int height, GLfloat* data);
+GLuint texture_loadData(std::string name, int width, int height, GLfloat* data);
 GLuint texture_get(const char* textureName);
 
 #endif

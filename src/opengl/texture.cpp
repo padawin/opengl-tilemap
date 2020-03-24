@@ -64,7 +64,7 @@ bool _loadTexture(std::string name, std::string path) {
 	return true;
 }
 
-void texture_loadData(std::string name, int width, int height, GLfloat* data) {
+GLuint texture_loadData(std::string name, int width, int height, GLfloat* data) {
 	Texture t;
 	t.width = width;
 	t.height = height;
@@ -74,6 +74,7 @@ void texture_loadData(std::string name, int width, int height, GLfloat* data) {
 	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RED, GL_FLOAT, data);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	textures[name] = t;
+	return t.textureID;
 }
 
 GLuint texture_get(const char* textureName) {
