@@ -14,7 +14,8 @@ class Tilemap {
 	float m_fHeight = 0.0f;
 	int m_iSize = 0;
 	TilemapLayer m_layer = TilemapLayer();
-	std::vector<ObjectRenderer> m_vRenderer = {};
+	ObjectRenderer m_renderer = ObjectRenderer();
+	std::vector<std::map<const char*, unsigned int>> m_vLayerTextures = {};
 
 	public:
 	void init();
