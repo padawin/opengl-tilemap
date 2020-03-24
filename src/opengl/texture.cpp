@@ -48,32 +48,32 @@ bool _loadTexture(std::string name, std::string path) {
 	if (!data) {
 		return false;
 	}
-	_loadInGPU(t, data);
-	textures[name] = t;
-	stbi_image_free(data);
-	return true;
-}
-
-void texture_loadData(std::string name, int width, int height, unsigned char* data) {
-	Texture t;
-	t.width = width;
-	t.height = height;
-	_loadInGPU(t, data);
-	textures[name] = t;
-}
-
-void _loadInGPU(Texture &t, unsigned char* data) {
 	glGenTextures(1, &t.textureID);
 	glBindTexture(GL_TEXTURE_2D, t.textureID);
 	// set the texture wrapping/filtering options (on the currently bound
 	// texture object)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, t.width, t.height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, t.width, t.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 0);
+	textures[name] = t;
+	stbi_image_free(data);
+	return true;
+}
+
+void texture_loadData(std::string name, int width, int height, GLfloat* data) {
+	Texture t;
+	t.width = width;
+	t.height = height;
+	glGenTextures(1, &t.textureID);
+	glBindTexture(GL_TEXTURE_2D, t.textureID);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_R32F, width, height);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RED, GL_FLOAT, data);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	textures[name] = t;
 }
 
 GLuint texture_get(const char* textureName) {
