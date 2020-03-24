@@ -1,39 +1,72 @@
 #include "Tilemap.hpp"
 #include "renderers.hpp"
-#include <iostream>
+#include "stb_image.h"
 
 void Tilemap::init() {
 	m_fWidth = 10.0;
 	m_fHeight = 10.0;
-	m_iSize = (int) (m_fWidth * m_fHeight);
-	const char* layerName = "test.layer";
-	unsigned char data[] = {
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 1, 0, 0, 2, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 3, 0, 0, 4, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	int width = (int) m_fWidth;
+	int height = (int) m_fHeight;
+	unsigned int tileAtlasWidth = 38;
+	unsigned int tileAtlasHeight = 25;
+	m_iSize = width * height;
+	const char* layerName1 = "ground.layer";
+	const char* layerName2 = "buildings.layer";
+	GLfloat data1[] = {
+		1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+		38.0f, 38.0f, 38.0f, 40.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 76.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
 	};
-	m_vLayers.push_back({
-		TilemapLayer(),
-		ObjectRenderer()
-	});
-	m_vLayers[0].layer.setPosition(-1.0f, 0.0f, 0.0f);
-	renderer_initTilemapRenderer(&m_vLayers[0].renderer, m_fWidth, m_fHeight);
-	texture_loadData(layerName, (int) m_fWidth, (int) m_fHeight, data);
-	m_vLayers[0].renderer.addTexture("tileAtlas", texture_get("texture_atlas.png"));
-	m_vLayers[0].renderer.addTexture("tilemap", texture_get(layerName));
+	GLfloat data2[] = {
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 16.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+	};
+	ObjectRenderer groundRenderer, buildingsRenderer;
+
+	renderer_initTilemapRenderer(&groundRenderer, m_fWidth, m_fHeight);
+	texture_loadData(layerName1, width, height, data1);
+	groundRenderer.setUniform("tileAtlasWidth", tileAtlasWidth);
+	groundRenderer.setUniform("tileAtlasHeight", tileAtlasHeight);
+
+	renderer_initTilemapRenderer(&buildingsRenderer, m_fWidth, m_fHeight);
+	texture_loadData(layerName2, width, height, data2);
+	buildingsRenderer.setUniform("tileAtlasWidth", tileAtlasWidth);
+	buildingsRenderer.setUniform("tileAtlasHeight", tileAtlasHeight);
+
+	m_vRenderer.push_back(groundRenderer);
+	m_vRenderer.push_back(buildingsRenderer);
 }
 
 void Tilemap::render(std::shared_ptr<Camera> camera) {
-	// set tile atlas
-	for (auto layer : m_vLayers) {
-		layer.layer.render(camera, &layer.renderer);
-	}
+	const char* layerName1 = "ground.layer";
+	const char* layerName2 = "buildings.layer";
+	unsigned int worldTexture = texture_get("world.png");
+	std::map<const char*, unsigned int> textures1 = {};
+	textures1["tileAtlas"] = worldTexture;
+	textures1["tilemap"] = texture_get(layerName1);
+	std::map<const char*, unsigned int> textures2 = {};
+	textures2["tileAtlas"] = worldTexture;
+	textures2["tilemap"] = texture_get(layerName2);
+
+	m_vRenderer[0].setTextures(textures1);
+	m_layer.setPosition(0.0f, 0.0f, 0.0f);
+	m_layer.render(camera, &m_vRenderer[0]);
+	m_vRenderer[1].setTextures(textures2);
+	m_layer.setPosition(0.0f, 0.0f, 1.0f);
+	m_layer.render(camera, &m_vRenderer[1]);
 }

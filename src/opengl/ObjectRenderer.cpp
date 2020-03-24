@@ -1,6 +1,5 @@
 #include <iostream>
 #include "ObjectRenderer.hpp"
-#include "glad/glad.h"
 #include "shader.hpp"
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -53,12 +52,16 @@ void ObjectRenderer::setShaderProgram(std::string shaderProgram) {
 	m_sShaderProgram = shaderProgram;
 }
 
-void ObjectRenderer::addTexture(const char* name, unsigned int texture) {
-	if (m_mTextures.find(name) != m_mTextures.end()) {
-		std::cerr << "Texture " << name << " already set for object renderer\n";
-		return;
+void ObjectRenderer::setTextures(std::map<const char*, unsigned int> textures) {
+	GLuint shaderProgram = shader_getProgram(m_sShaderProgram.c_str());
+	glUseProgram(shaderProgram);
+	unsigned int currTexture = 0;
+	for (auto texture : textures) {
+		glActiveTexture(GL_TEXTURE0 + currTexture);
+		glBindTexture(GL_TEXTURE_2D, texture.second);
+		glUniform1i(glGetUniformLocation(shaderProgram, texture.first), (int) currTexture);
+		currTexture++;
 	}
-	m_mTextures[name] = texture;
 }
 
 void ObjectRenderer::setScale(float x, float y, float z) {
@@ -84,6 +87,13 @@ void ObjectRenderer::setUniform(std::string name, glm::vec3 value) {
 	glUniform3f(location, value.x, value.y, value.z);
 }
 
+void ObjectRenderer::setUniform(std::string name, GLuint value) {
+	GLuint shaderProgram = shader_getProgram(m_sShaderProgram.c_str());
+	int location = glGetUniformLocation(shaderProgram, name.c_str());
+	glUseProgram(shaderProgram);
+	glUniform1ui(location, value);
+}
+
 void ObjectRenderer::render(std::shared_ptr<Camera> camera) {
 	GLuint shaderProgram = shader_getProgram(m_sShaderProgram.c_str());
 
@@ -101,13 +111,6 @@ void ObjectRenderer::render(std::shared_ptr<Camera> camera) {
 	int projectionLocation = glGetUniformLocation(shaderProgram, "projection");
 
 	glUseProgram(shaderProgram);
-	unsigned int currTexture = 0;
-	for (auto texture : m_mTextures) {
-		glActiveTexture(GL_TEXTURE0 + currTexture);
-		glBindTexture(GL_TEXTURE_2D, texture.second);
-		glUniform1i(glGetUniformLocation(shaderProgram, texture.first), (int) currTexture);
-		currTexture++;
-	}
 
 	glUniform1f(timeLocation, timeValue);
 	glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(model));
