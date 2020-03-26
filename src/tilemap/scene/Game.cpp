@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "game/config.hpp"
 #include "opengl/OrthoCamera.hpp"
 #include "game/cameraView/Follow.hpp"
 #include <iostream>
@@ -14,7 +15,8 @@ GameScene::GameScene(UserActions &userActions) :
 }
 
 bool GameScene::onEnter() {
-	m_board.init();
+	std::string filePath = config_getBinPath() + "/../resources/levels/level1.lvl";
+	m_board.init(filePath);
 	m_reference = std::shared_ptr<GameObject>(new GameObject);
 	m_reference->setPosition(-1.0f, 1.0f, 1.0f);
 	setCameraView(std::shared_ptr<CameraView>(new FollowView(m_reference, glm::vec3(0.0f, 0.0f, 15.0f))));
