@@ -2,7 +2,10 @@
 #define __OBJECT__
 
 #include <memory>
+#include <map>
+#include <string>
 #include "GameObjectRenderer.hpp"
+#include "Component.hpp"
 #include "Camera.hpp"
 
 class GameObject {
@@ -10,6 +13,8 @@ class GameObject {
 	glm::vec3 m_position = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 m_angle = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 m_scale = glm::vec3(1.0f, 1.0f, 1.0f);
+
+	std::map<std::string, std::shared_ptr<Component>> m_mComponents = {};
 
 	public:
 	virtual ~GameObject() {}

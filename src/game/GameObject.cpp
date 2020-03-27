@@ -2,6 +2,9 @@
 #include <iostream>
 
 void GameObject::update() {
+	for (auto component : m_mComponents) {
+		component.second->update();
+	}
 }
 
 void GameObject::render(std::shared_ptr<Camera> camera, GameObjectRenderer *renderer) {
