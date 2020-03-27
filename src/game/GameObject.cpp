@@ -25,3 +25,11 @@ void GameObject::setPosition(float x, float y, float z) {
 glm::vec3 GameObject::getPosition() const {
 	return m_position;
 }
+
+std::shared_ptr<Component> GameObject::getComponent(std::string name) {
+	if (m_mComponents.find(name) == m_mComponents.end()) {
+		return nullptr;
+	}
+
+	return m_mComponents[name];
+}
