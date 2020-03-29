@@ -1,3 +1,2 @@
 default default.vert default.frag
 tilemap default.vert tilemap.frag
-boardcell default.vert boardcell.frag
