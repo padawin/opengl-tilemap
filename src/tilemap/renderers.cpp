@@ -5,7 +5,7 @@ void renderer_initTilemapRenderer(ObjectRenderer *renderer, float width, float h
 	float vertices[] = {
 		// vertices        // texture    // color
 		width, height, 0.0f, width, 0.0f, // top right
-		0, height, 0.0f, 0.0f, 0.0f, // top left
+		0.0f, height, 0.0f, 0.0f, 0.0f, // top left
 		width, 0.0f, 0.0f, width, height, // bottom right
 		0.0f, 0.0f, 0.0f, 0.0f, height  // bottom left
 	};
