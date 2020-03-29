@@ -29,6 +29,10 @@ glm::vec3 GameObject::getPosition() const {
 	return m_position;
 }
 
+void GameObject::addComponent(std::string name, std::shared_ptr<Component> component) {
+	m_mComponents[name] = component;
+}
+
 std::shared_ptr<Component> GameObject::getComponent(std::string name) {
 	if (m_mComponents.find(name) == m_mComponents.end()) {
 		return nullptr;
