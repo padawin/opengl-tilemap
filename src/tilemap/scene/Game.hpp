@@ -4,11 +4,13 @@
 #include "game/SceneState.hpp"
 #include "game/UserActions.hpp"
 #include "game/GameObject.hpp"
+#include "opengl/ObjectRenderer.hpp"
 #include "tilemap/Tilemap.hpp"
 
 class GameScene : public SceneState {
 	private:
 	Tilemap m_board;
+	ObjectRenderer m_spriteRenderer = ObjectRenderer();
 	std::shared_ptr<GameObject> m_reference = 0;
 
 	public:
