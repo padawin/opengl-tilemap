@@ -29,6 +29,7 @@ class ObjectRenderer : public GameObjectRenderer {
 	void setVertices(float* vertices, unsigned int* indices, int verticesCount, int indicesCount);
 	void setShaderProgram(std::string shaderProgram);
 	void setTextures(std::map<const char*, unsigned int> textures);
+	void setTexture(const char* textureName, unsigned int textureID);
 
 	void setScale(float x, float y, float z);
 	void setRotation(float x, float y, float z);
