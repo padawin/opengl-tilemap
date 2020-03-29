@@ -37,6 +37,7 @@ class ObjectRenderer : public GameObjectRenderer {
 
 	void setUniform(std::string name, glm::vec3 value);
 	void setUniform(std::string name, GLuint value);
+	void setUniform(std::string name, GLfloat value);
 
 	void render(std::shared_ptr<Camera> camera);
 };
