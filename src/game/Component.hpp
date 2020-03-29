@@ -1,14 +1,16 @@
 #ifndef __COMPONENT__
 #define __COMPONENT__
 
+#include <memory>
+
 class GameObject;
 
 class Component {
 	private:
-	GameObject &m_owner;
+	std::shared_ptr<GameObject> m_owner;
 
 	public:
-	Component(GameObject &owner);
+	Component(std::shared_ptr<GameObject> owner);
 	virtual ~Component() {}
 	virtual void update();
 };

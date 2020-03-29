@@ -1,7 +1,7 @@
 #include "Component.hpp"
 #include "GameObject.hpp"
 
-Component::Component(GameObject &owner) :
+Component::Component(std::shared_ptr<GameObject> owner) :
 	m_owner(owner) {
 }
 
