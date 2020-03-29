@@ -12,6 +12,9 @@ void GameObject::render(std::shared_ptr<Camera> camera, GameObjectRenderer *rend
 }
 
 void GameObject::render(std::shared_ptr<Camera> camera, GameObjectRenderer *renderer, glm::vec3 position, glm::vec3 angle, glm::vec3 scale) {
+	for (auto component : m_mComponents) {
+		component.second->render();
+	}
 	renderer->setPosition(position.x, position.y, position.z);
 	renderer->setRotation(angle.x, angle.y, angle.z);
 	renderer->setScale(scale.x, scale.y, scale.z);

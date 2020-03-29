@@ -13,6 +13,7 @@ class Component {
 	Component(std::shared_ptr<GameObject> owner);
 	virtual ~Component() {}
 	virtual void update();
+	virtual void render();
 };
 
 #endif

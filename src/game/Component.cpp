@@ -7,3 +7,6 @@ Component::Component(std::shared_ptr<GameObject> owner) :
 
 void Component::update() {
 }
+
+void Component::render() {
+}
