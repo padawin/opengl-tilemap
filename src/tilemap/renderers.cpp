@@ -5,7 +5,7 @@ void renderer_initTilemapRenderer(ObjectRenderer *renderer, float width, float h
 	float vertices[] = {
 		// vertices        // texture    // color
 		width, height, 0.0f, width, 0.0f, // top right
-		0, height, 0.0f, 0.0f, 0.0f, // top left
+		0.0f, height, 0.0f, 0.0f, 0.0f, // top left
 		width, 0.0f, 0.0f, width, height, // bottom right
 		0.0f, 0.0f, 0.0f, 0.0f, height  // bottom left
 	};
@@ -16,6 +16,29 @@ void renderer_initTilemapRenderer(ObjectRenderer *renderer, float width, float h
 
 	renderer->init();
 	renderer->setShaderProgram("tilemap");
+	renderer->setVertices(
+		vertices,
+		indices,
+		(int) sizeof(vertices),
+		(int) sizeof(indices)
+	);
+}
+
+void renderer_initSpriteRenderer(ObjectRenderer *renderer) {
+	float vertices[] = {
+		// vertices        // texture    // color
+		2.0f, 2.0f, 0.0f, 1.0f, 0.0f, // top right
+		0.0f, 2.0f, 0.0f, 0.0f, 0.0f, // top left
+		2.0f, 0.0f, 0.0f, 1.0f, 1.0f, // bottom right
+		0.0f, 0.0f, 0.0f, 0.0f, 1.0f  // bottom left
+	};
+	unsigned int indices[] = {  // note that we start from 0!
+		0, 1, 2,   // first triangle
+		1, 2, 3    // second triangle
+	};
+
+	renderer->init();
+	renderer->setShaderProgram("sprite");
 	renderer->setVertices(
 		vertices,
 		indices,

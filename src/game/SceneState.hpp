@@ -17,6 +17,7 @@ class SceneState : public State {
 
 	public:
 	SceneState(UserActions &userActions);
+	~SceneState() {}
 	virtual void update(StateMachine<SceneState> &stateMachine) = 0;
 	void setCamera(std::shared_ptr<Camera> camera);
 	void setCameraView(std::shared_ptr<CameraView> cameraView);

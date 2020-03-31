@@ -2,6 +2,9 @@
 #include <iostream>
 
 void GameObject::update() {
+	for (auto component : m_mComponents) {
+		component.second->update();
+	}
 }
 
 void GameObject::render(std::shared_ptr<Camera> camera, GameObjectRenderer *renderer) {
@@ -9,6 +12,9 @@ void GameObject::render(std::shared_ptr<Camera> camera, GameObjectRenderer *rend
 }
 
 void GameObject::render(std::shared_ptr<Camera> camera, GameObjectRenderer *renderer, glm::vec3 position, glm::vec3 angle, glm::vec3 scale) {
+	for (auto component : m_mComponents) {
+		component.second->render();
+	}
 	renderer->setPosition(position.x, position.y, position.z);
 	renderer->setRotation(angle.x, angle.y, angle.z);
 	renderer->setScale(scale.x, scale.y, scale.z);
@@ -21,4 +27,16 @@ void GameObject::setPosition(float x, float y, float z) {
 
 glm::vec3 GameObject::getPosition() const {
 	return m_position;
+}
+
+void GameObject::addComponent(std::string name, std::shared_ptr<Component> component) {
+	m_mComponents[name] = component;
+}
+
+std::shared_ptr<Component> GameObject::getComponent(std::string name) {
+	if (m_mComponents.find(name) == m_mComponents.end()) {
+		return nullptr;
+	}
+
+	return m_mComponents[name];
 }

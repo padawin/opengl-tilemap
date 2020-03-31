@@ -29,6 +29,7 @@ class ObjectRenderer : public GameObjectRenderer {
 	void setVertices(float* vertices, unsigned int* indices, int verticesCount, int indicesCount);
 	void setShaderProgram(std::string shaderProgram);
 	void setTextures(std::map<const char*, unsigned int> textures);
+	void setTexture(const char* textureName, unsigned int textureID);
 
 	void setScale(float x, float y, float z);
 	void setRotation(float x, float y, float z);
@@ -36,6 +37,7 @@ class ObjectRenderer : public GameObjectRenderer {
 
 	void setUniform(std::string name, glm::vec3 value);
 	void setUniform(std::string name, GLuint value);
+	void setUniform(std::string name, GLfloat value);
 
 	void render(std::shared_ptr<Camera> camera);
 };

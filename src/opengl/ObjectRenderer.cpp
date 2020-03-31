@@ -64,6 +64,14 @@ void ObjectRenderer::setTextures(std::map<const char*, unsigned int> textures) {
 	}
 }
 
+void ObjectRenderer::setTexture(const char* textureName, unsigned int textureID) {
+	GLuint shaderProgram = shader_getProgram(m_sShaderProgram.c_str());
+	glUseProgram(shaderProgram);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glUniform1i(glGetUniformLocation(shaderProgram, textureName), 0);
+}
+
 void ObjectRenderer::setScale(float x, float y, float z) {
 	m_scale = glm::scale(glm::mat4(1.0f), glm::vec3(x, y, z));
 }
@@ -92,6 +100,13 @@ void ObjectRenderer::setUniform(std::string name, GLuint value) {
 	int location = glGetUniformLocation(shaderProgram, name.c_str());
 	glUseProgram(shaderProgram);
 	glUniform1ui(location, value);
+}
+
+void ObjectRenderer::setUniform(std::string name, GLfloat value) {
+	GLuint shaderProgram = shader_getProgram(m_sShaderProgram.c_str());
+	int location = glGetUniformLocation(shaderProgram, name.c_str());
+	glUseProgram(shaderProgram);
+	glUniform1f(location, value);
 }
 
 void ObjectRenderer::render(std::shared_ptr<Camera> camera) {
