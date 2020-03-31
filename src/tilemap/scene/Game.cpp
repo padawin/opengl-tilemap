@@ -1,5 +1,6 @@
 #include "Game.hpp"
-#include "tilemap/components/Sprite.hpp"
+#include "tilemap/components/Animation.hpp"
+#include "tilemap/Animation.hpp"
 #include "tilemap/renderers.hpp"
 #include "opengl/texture.hpp"
 #include "game/config.hpp"
@@ -22,18 +23,18 @@ bool GameScene::onEnter() {
 	m_board.init(filePath);
 	renderer_initSpriteRenderer(&m_spriteRenderer);
 	m_reference = std::shared_ptr<GameObject>(new GameObject);
-	m_reference->addComponent(
-		"SpriteRenderer",
-		std::shared_ptr<Component>(new SpriteComponent(
-			m_reference,
-			std::shared_ptr<ObjectRenderer>(&m_spriteRenderer),
-			texture_get("chara6.png"),
-			// Sprite size
-			1.0f, 72.0f / 52.0f,
-			// Sprite info
-			1, 0, 12, 8
-		))
-	);
+	//m_animationCollection.loadAnimations(config_getBinPath() + "/../resources/animations.dat");
+	auto walkSouth = m_animationCollection.createAnimation("walkSouth", true, 0.5f);
+	walkSouth->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 0, 12, 8);
+	walkSouth->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 2, 0, 12, 8);
+	walkSouth->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 0, 12, 8);
+	walkSouth->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 0, 0, 12, 8);
+	auto animationComponent = std::shared_ptr<AnimationComponent>(new AnimationComponent(
+		m_reference, std::shared_ptr<ObjectRenderer>(&m_spriteRenderer)
+	));
+	animationComponent->addAnimation("walkSouth", walkSouth);
+	animationComponent->start("walkSouth");
+	m_reference->addComponent("Animation", animationComponent);
 	m_reference->setPosition(3.0f, 4.0f, 1.0f);
 	setCameraView(std::shared_ptr<CameraView>(new FollowView(m_reference, glm::vec3(0.0f, 0.0f, 15.0f))));
 
@@ -48,6 +49,7 @@ void GameScene::update(StateMachine<SceneState> &stateMachine) {
 		return;
 	}
 	m_cameraView->update();
+	m_reference->update();
 }
 
 void GameScene::render() {
