@@ -18,6 +18,7 @@ class AnimationComponent : public Component {
 	AnimationComponent(std::shared_ptr<GameObject> owner, std::shared_ptr<ObjectRenderer> renderer);
 	void addAnimation(std::string name, std::shared_ptr<Animation> animation);
 	void start(std::string name);
+	void stop();
 	void update();
 	void render();
 };

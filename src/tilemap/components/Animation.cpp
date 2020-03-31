@@ -18,6 +18,10 @@ void AnimationComponent::start(std::string name) {
 	m_mAnimations[name]->start();
 }
 
+void AnimationComponent::stop() {
+	m_mAnimations[m_sCurrentAnimation]->stop();
+}
+
 void AnimationComponent::update() {
 	m_mAnimations[m_sCurrentAnimation]->update();
 }

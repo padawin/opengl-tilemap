@@ -1,4 +1,7 @@
 #include "Animation.hpp"
+#include <math.h>
+
+#define EPSILON 0.01
 
 Animation::Animation(bool loop, float timePerFrame) :
 	m_bLoop(loop),
@@ -31,7 +34,14 @@ void Animation::start() {
 	m_fTimeStart = glfwGetTime();
 }
 
+void Animation::stop() {
+	m_fTimeStart = 0.0f;
+}
+
 void Animation::update() {
+	if (fabs(m_fTimeStart) < EPSILON) {
+		return;
+	}
 	long unsigned nbFrames = m_vFrames.size();
 	m_iCurrentFrame = (long unsigned) ((glfwGetTime() - m_fTimeStart) / m_fTimePerFrame);
 	if (m_bLoop) {
