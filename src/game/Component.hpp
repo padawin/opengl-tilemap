@@ -6,7 +6,7 @@
 class GameObject;
 
 class Component {
-	private:
+	protected:
 	std::shared_ptr<GameObject> m_owner;
 
 	public:
