@@ -8,9 +8,11 @@ const unsigned char DIRECTION_RIGHT = 1 << 2;
 const unsigned char DIRECTION_LEFT  = 1 << 3;
 const unsigned char MAX_DIRECTION   = 1 << 4;
 
-MovementsComponent::MovementsComponent(std::shared_ptr<GameObject> owner, UserActions &userActions) :
+MovementsComponent::MovementsComponent(std::shared_ptr<GameObject> owner, UserActions &userActions, float speed) :
 	Component(owner),
-	m_userActions(userActions) {
+	m_userActions(userActions),
+	m_fSpeed(speed)
+{
 
 }
 void MovementsComponent::init() {
@@ -24,6 +26,7 @@ void MovementsComponent::update() {
 	pressedKeys = pressedKeys | (m_userActions.getActionState("RIGHT") ? DIRECTION_RIGHT : NO_DIRECTION);
 	pressedKeys = pressedKeys | (m_userActions.getActionState("LEFT") ? DIRECTION_LEFT : NO_DIRECTION);
 	_updateAnimation(pressedKeys);
+	_updatePosition(pressedKeys);
 }
 
 void MovementsComponent::_updateAnimation(unsigned char pressedKeys) {
@@ -47,4 +50,49 @@ void MovementsComponent::_updateAnimation(unsigned char pressedKeys) {
 		std::string animations[] = {"walkUp", "walkDown", "walkRight", "walkLeft"};
 		m_animationComponent->start(animations[i]);
 	}
+}
+
+void MovementsComponent::_updatePosition(unsigned char pressedKeys) {
+	if (!pressedKeys) {
+		return;
+	}
+
+	glm::vec3 pos = m_owner->getPosition();
+	if (m_directionSpriteToRender == DIRECTION_UP) {
+		pos.y += m_fSpeed;
+		if (pressedKeys & DIRECTION_RIGHT) {
+			pos.x += m_fSpeed;
+		}
+		else if (pressedKeys & DIRECTION_LEFT) {
+			pos.x -= m_fSpeed;
+		}
+	}
+	else if (m_directionSpriteToRender == DIRECTION_DOWN) {
+		pos.y -= m_fSpeed;
+		if (pressedKeys & DIRECTION_RIGHT) {
+			pos.x += m_fSpeed;
+		}
+		else if (pressedKeys & DIRECTION_LEFT) {
+			pos.x -= m_fSpeed;
+		}
+	}
+	else if (m_directionSpriteToRender == DIRECTION_RIGHT) {
+		pos.x += m_fSpeed;
+		if (pressedKeys & DIRECTION_UP) {
+			pos.y += m_fSpeed;
+		}
+		else if (pressedKeys & DIRECTION_DOWN) {
+			pos.y -= m_fSpeed;
+		}
+	}
+	else if (m_directionSpriteToRender == DIRECTION_LEFT) {
+		pos.x -= m_fSpeed;
+		if (pressedKeys & DIRECTION_UP) {
+			pos.y += m_fSpeed;
+		}
+		else if (pressedKeys & DIRECTION_DOWN) {
+			pos.y -= m_fSpeed;
+		}
+	}
+	m_owner->setPosition(pos.x, pos.y, pos.z);
 }

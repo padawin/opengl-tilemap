@@ -11,11 +11,13 @@ class MovementsComponent : public Component {
 	unsigned char m_movements = 0;
 	unsigned char m_directionSpriteToRender = 0;
 	UserActions &m_userActions;
+	float m_fSpeed;
 
 	void _updateAnimation(unsigned char pressedKeys);
+	void _updatePosition(unsigned char pressedKeys);
 
 	public:
-	MovementsComponent(std::shared_ptr<GameObject> owner, UserActions &userActions);
+	MovementsComponent(std::shared_ptr<GameObject> owner, UserActions &userActions, float speed);
 	void init();
 	void moveUp(bool moves);
 	void moveDown(bool moves);

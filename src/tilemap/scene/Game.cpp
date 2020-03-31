@@ -52,8 +52,9 @@ bool GameScene::onEnter() {
 	animationComponent->addAnimation("walkDown", walkDown);
 	animationComponent->addAnimation("walkLeft", walkLeft);
 	animationComponent->addAnimation("walkRight", walkRight);
+	float playerSpeed = 0.05f;
 	auto movementsComponent = std::shared_ptr<MovementsComponent>(new MovementsComponent(
-		m_reference, m_userActions
+		m_reference, m_userActions, playerSpeed
 	));
 	m_reference->addComponent("animation", animationComponent);
 	m_reference->addComponent("movements", movementsComponent);
