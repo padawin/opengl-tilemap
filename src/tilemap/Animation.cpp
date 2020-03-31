@@ -36,6 +36,7 @@ void Animation::start() {
 
 void Animation::stop() {
 	m_fTimeStart = 0.0f;
+	m_iCurrentFrame = 0;
 }
 
 void Animation::update() {
