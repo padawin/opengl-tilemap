@@ -12,6 +12,7 @@ class Component {
 	public:
 	Component(std::shared_ptr<GameObject> owner);
 	virtual ~Component() {}
+	virtual void init();
 	virtual void update();
 	virtual void render();
 };

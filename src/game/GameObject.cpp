@@ -33,6 +33,12 @@ void GameObject::addComponent(std::string name, std::shared_ptr<Component> compo
 	m_mComponents[name] = component;
 }
 
+void GameObject::initComponents() {
+	for (auto component : m_mComponents) {
+		component.second->init();
+	}
+}
+
 std::shared_ptr<Component> GameObject::getComponent(std::string name) {
 	if (m_mComponents.find(name) == m_mComponents.end()) {
 		return nullptr;

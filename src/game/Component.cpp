@@ -5,6 +5,9 @@ Component::Component(std::shared_ptr<GameObject> owner) :
 	m_owner(owner) {
 }
 
+void Component::init() {
+}
+
 void Component::update() {
 }
 
