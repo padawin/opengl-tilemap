@@ -12,6 +12,7 @@ class AnimationCollection {
 
 	public:
 	std::shared_ptr<Animation> createAnimation(std::string name, bool loop, float timePerFrame);
+	std::shared_ptr<Animation> getAnimation(std::string name);
 };
 
 #endif

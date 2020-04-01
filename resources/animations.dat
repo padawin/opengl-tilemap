@@ -1,0 +1,31 @@
+# animationstart name loop(bool) timePerFrame(float)
+animationstart walkUp 1 0.3
+# frames:
+# textureName width height tileX tileY tileAtlasWidth tileAtlasHeight
+# 1.384615384615 == 72/52
+chara6.png 1.0 1.384615384615 1 3 12 8
+chara6.png 1.0 1.384615384615 2 3 12 8
+chara6.png 1.0 1.384615384615 1 3 12 8
+chara6.png 1.0 1.384615384615 0 3 12 8
+animationend
+
+animationstart walkDown 1 0.3
+chara6.png 1.0 1.384615384615 1 0 12 8
+chara6.png 1.0 1.384615384615 2 0 12 8
+chara6.png 1.0 1.384615384615 1 0 12 8
+chara6.png 1.0 1.384615384615 0 0 12 8
+animationend
+
+animationstart walkRight 1 0.3
+chara6.png 1.0 1.384615384615 1 2 12 8
+chara6.png 1.0 1.384615384615 2 2 12 8
+chara6.png 1.0 1.384615384615 1 2 12 8
+chara6.png 1.0 1.384615384615 0 2 12 8
+animationend
+
+animationstart walkLeft 1 0.3
+chara6.png 1.0 1.384615384615 1 1 12 8
+chara6.png 1.0 1.384615384615 2 1 12 8
+chara6.png 1.0 1.384615384615 1 1 12 8
+chara6.png 1.0 1.384615384615 0 1 12 8
+animationend
