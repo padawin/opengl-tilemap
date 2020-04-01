@@ -25,6 +25,7 @@ class GameObject {
 	virtual void render(std::shared_ptr<Camera> camera, GameObjectRenderer *renderer);
 	virtual void render(std::shared_ptr<Camera> camera, GameObjectRenderer *renderer, glm::vec3 position, glm::vec3 angle, glm::vec3 scale);
 	virtual void addComponent(std::string name, std::shared_ptr<Component> component);
+	virtual void initComponents();
 	virtual std::shared_ptr<Component> getComponent(std::string name);
 };
 

@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "tilemap/components/Animation.hpp"
+#include "tilemap/components/Movements.hpp"
 #include "tilemap/Animation.hpp"
 #include "tilemap/renderers.hpp"
 #include "opengl/texture.hpp"
@@ -24,17 +25,40 @@ bool GameScene::onEnter() {
 	renderer_initSpriteRenderer(&m_spriteRenderer);
 	m_reference = std::shared_ptr<GameObject>(new GameObject);
 	//m_animationCollection.loadAnimations(config_getBinPath() + "/../resources/animations.dat");
-	auto walkSouth = m_animationCollection.createAnimation("walkSouth", true, 0.5f);
-	walkSouth->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 0, 12, 8);
-	walkSouth->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 2, 0, 12, 8);
-	walkSouth->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 0, 12, 8);
-	walkSouth->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 0, 0, 12, 8);
+	auto walkUp = m_animationCollection.createAnimation("walkUp", true, 0.3f);
+	auto walkDown = m_animationCollection.createAnimation("walkDown", true, 0.3f);
+	auto walkLeft = m_animationCollection.createAnimation("walkLeft", true, 0.3f);
+	auto walkRight = m_animationCollection.createAnimation("walkRight", true, 0.3f);
+	walkUp->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 3, 12, 8);
+	walkUp->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 2, 3, 12, 8);
+	walkUp->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 3, 12, 8);
+	walkUp->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 0, 3, 12, 8);
+	walkDown->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 0, 12, 8);
+	walkDown->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 2, 0, 12, 8);
+	walkDown->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 0, 12, 8);
+	walkDown->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 0, 0, 12, 8);
+	walkLeft->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 1, 12, 8);
+	walkLeft->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 2, 1, 12, 8);
+	walkLeft->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 1, 12, 8);
+	walkLeft->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 0, 1, 12, 8);
+	walkRight->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 2, 12, 8);
+	walkRight->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 2, 2, 12, 8);
+	walkRight->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 2, 12, 8);
+	walkRight->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 0, 2, 12, 8);
 	auto animationComponent = std::shared_ptr<AnimationComponent>(new AnimationComponent(
 		m_reference, std::shared_ptr<ObjectRenderer>(&m_spriteRenderer)
 	));
-	animationComponent->addAnimation("walkSouth", walkSouth);
-	animationComponent->start("walkSouth");
-	m_reference->addComponent("Animation", animationComponent);
+	animationComponent->addAnimation("walkUp", walkUp);
+	animationComponent->addAnimation("walkDown", walkDown);
+	animationComponent->addAnimation("walkLeft", walkLeft);
+	animationComponent->addAnimation("walkRight", walkRight);
+	float playerSpeed = 0.05f;
+	auto movementsComponent = std::shared_ptr<MovementsComponent>(new MovementsComponent(
+		m_reference, m_userActions, playerSpeed
+	));
+	m_reference->addComponent("animation", animationComponent);
+	m_reference->addComponent("movements", movementsComponent);
+	m_reference->initComponents();
 	m_reference->setPosition(3.0f, 4.0f, 1.0f);
 	setCameraView(std::shared_ptr<CameraView>(new FollowView(m_reference, glm::vec3(0.0f, 0.0f, 15.0f))));
 

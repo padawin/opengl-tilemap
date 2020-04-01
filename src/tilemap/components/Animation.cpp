@@ -8,6 +8,7 @@ AnimationComponent::AnimationComponent(std::shared_ptr<GameObject> owner, std::s
 
 void AnimationComponent::addAnimation(std::string name, std::shared_ptr<Animation> animation) {
 	m_mAnimations[name] = animation;
+	m_sCurrentAnimation = name;
 }
 
 void AnimationComponent::start(std::string name) {
@@ -16,6 +17,10 @@ void AnimationComponent::start(std::string name) {
 	}
 	m_sCurrentAnimation = name;
 	m_mAnimations[name]->start();
+}
+
+void AnimationComponent::stop() {
+	m_mAnimations[m_sCurrentAnimation]->stop();
 }
 
 void AnimationComponent::update() {

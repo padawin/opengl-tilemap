@@ -24,6 +24,7 @@ class Animation {
 	);
 	Sprite &getSprite();
 	void start();
+	void stop();
 	void update();
 };
 

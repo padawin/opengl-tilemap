@@ -6,12 +6,13 @@
 class GameObject;
 
 class Component {
-	private:
+	protected:
 	std::shared_ptr<GameObject> m_owner;
 
 	public:
 	Component(std::shared_ptr<GameObject> owner);
 	virtual ~Component() {}
+	virtual void init();
 	virtual void update();
 	virtual void render();
 };
