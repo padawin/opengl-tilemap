@@ -47,6 +47,7 @@ void MovementsComponent::_updateAnimation(unsigned char pressedKeys) {
 			i++, direction = 1 << i
 		) {}
 		m_directionSpriteToRender = (unsigned char) direction;
+		m_directionIndex = i;
 		std::string animations[] = {"walkUp", "walkDown", "walkRight", "walkLeft"};
 		m_animationComponent->start(animations[i]);
 	}

@@ -10,6 +10,7 @@ class MovementsComponent : public Component {
 	std::shared_ptr<AnimationComponent> m_animationComponent = 0;
 	unsigned char m_movements = 0;
 	unsigned char m_directionSpriteToRender = 0;
+	int m_directionIndex = 0;
 	UserActions &m_userActions;
 	float m_fSpeed;
 
