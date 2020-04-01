@@ -46,7 +46,7 @@ void Animation::update() {
 	long unsigned nbFrames = m_vFrames.size();
 	m_iCurrentFrame = (long unsigned) ((glfwGetTime() - m_fTimeStart) / m_fTimePerFrame);
 	if (m_bLoop) {
-		m_iCurrentFrame = m_iCurrentFrame % nbFrames;
+		m_iCurrentFrame = (m_iCurrentFrame + 1) % nbFrames;
 	}
 	else if (m_iCurrentFrame >= nbFrames) {
 		m_iCurrentFrame = nbFrames - 1;
