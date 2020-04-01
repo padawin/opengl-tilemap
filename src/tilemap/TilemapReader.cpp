@@ -29,7 +29,6 @@ bool TilemapReader::process(std::string filePath, TilemapFileFormat &data) {
 	std::set<std::string> layerNames = {};
 	while (!fileInStream.eof()) {
 		char buf[MAX_CHARS_PER_LINE];
-		// @check too long lines
 		fileInStream.getline(buf, MAX_CHARS_PER_LINE);
 		if (fileInStream.fail() && !fileInStream.eof()) { // for too long lines
 			std::cerr << "Failed reading line: " << buf << std::endl;
