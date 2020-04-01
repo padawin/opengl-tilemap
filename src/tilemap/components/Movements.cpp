@@ -7,6 +7,8 @@ const unsigned char DIRECTION_DOWN  = 1 << 1;
 const unsigned char DIRECTION_RIGHT = 1 << 2;
 const unsigned char DIRECTION_LEFT  = 1 << 3;
 const unsigned char MAX_DIRECTION   = 1 << 4;
+const unsigned char HORIZONTAL_DIRECTION = DIRECTION_RIGHT | DIRECTION_LEFT;
+const unsigned char VERTICAL_DIRECTION = DIRECTION_UP | DIRECTION_DOWN;
 
 MovementsComponent::MovementsComponent(std::shared_ptr<GameObject> owner, UserActions &userActions, float speed) :
 	Component(owner),
@@ -58,27 +60,12 @@ void MovementsComponent::_updatePosition(unsigned char pressedKeys) {
 		return;
 	}
 
+	float xSpeeds[] = {0.0f, 0.0f, m_fSpeed, -m_fSpeed};
+	float ySpeeds[] = {m_fSpeed, -m_fSpeed, 0.0f, 0.0f};
 	glm::vec3 pos = m_owner->getPosition();
-	if (m_directionSpriteToRender == DIRECTION_UP) {
-		pos.y += m_fSpeed;
-		if (pressedKeys & DIRECTION_RIGHT) {
-			pos.x += m_fSpeed;
-		}
-		else if (pressedKeys & DIRECTION_LEFT) {
-			pos.x -= m_fSpeed;
-		}
-	}
-	else if (m_directionSpriteToRender == DIRECTION_DOWN) {
-		pos.y -= m_fSpeed;
-		if (pressedKeys & DIRECTION_RIGHT) {
-			pos.x += m_fSpeed;
-		}
-		else if (pressedKeys & DIRECTION_LEFT) {
-			pos.x -= m_fSpeed;
-		}
-	}
-	else if (m_directionSpriteToRender == DIRECTION_RIGHT) {
-		pos.x += m_fSpeed;
+
+	if (m_directionSpriteToRender & HORIZONTAL_DIRECTION) {
+		pos.x += xSpeeds[m_directionIndex];
 		if (pressedKeys & DIRECTION_UP) {
 			pos.y += m_fSpeed;
 		}
@@ -86,13 +73,13 @@ void MovementsComponent::_updatePosition(unsigned char pressedKeys) {
 			pos.y -= m_fSpeed;
 		}
 	}
-	else if (m_directionSpriteToRender == DIRECTION_LEFT) {
-		pos.x -= m_fSpeed;
-		if (pressedKeys & DIRECTION_UP) {
-			pos.y += m_fSpeed;
+	else if (m_directionSpriteToRender & VERTICAL_DIRECTION) {
+		pos.y += ySpeeds[m_directionIndex];
+		if (pressedKeys & DIRECTION_RIGHT) {
+			pos.x += m_fSpeed;
 		}
-		else if (pressedKeys & DIRECTION_DOWN) {
-			pos.y -= m_fSpeed;
+		else if (pressedKeys & DIRECTION_LEFT) {
+			pos.x -= m_fSpeed;
 		}
 	}
 	m_owner->setPosition(pos.x, pos.y, pos.z);
