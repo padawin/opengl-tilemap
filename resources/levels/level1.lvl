@@ -1,5 +1,9 @@
 size 10 10
-layerstart ground
+# Layer format:
+# layerstart <type> <name>
+# type 0 = tile to display
+# type 1 = collision map, only 1's (colliding) or 0's (not colliding)
+layerstart 0 ground
 atlas world.png 38 25
 1,1,1,1,1,1,1,1,1,1,
 38,38,38,40,1,1,1,1,1,1,
@@ -12,11 +16,23 @@ atlas world.png 38 25
 1,1,1,1,1,1,1,1,1,1,
 1,1,1,1,1,1,1,1,1,1
 layerend
-layerstart buildings
+layerstart 0 buildings
 atlas world.png 38 25
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,16,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+layerend
+layerstart 1 collision
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,1,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
