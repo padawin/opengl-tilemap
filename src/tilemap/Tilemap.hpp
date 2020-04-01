@@ -16,7 +16,7 @@ class Tilemap {
 	TilemapFileFormat m_layers = TilemapFileFormat();
 
 	public:
-	void init(std::string filePath);
+	bool init(std::string filePath);
 	void render(std::shared_ptr<Camera> camera);
 };
 

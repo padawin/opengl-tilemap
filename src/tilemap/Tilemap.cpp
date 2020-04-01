@@ -2,11 +2,13 @@
 #include "renderers.hpp"
 #include "stb_image.h"
 
-void Tilemap::init(std::string filePath) {
+bool Tilemap::init(std::string filePath) {
 	TilemapReader reader;
 	if (reader.process(filePath, m_layers)) {
 		renderer_initTilemapRenderer(&m_renderer, (float) m_layers.width, (float) m_layers.height);
+		return true;
 	}
+	return false;
 }
 
 void Tilemap::render(std::shared_ptr<Camera> camera) {

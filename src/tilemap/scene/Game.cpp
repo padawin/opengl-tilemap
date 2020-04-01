@@ -21,7 +21,9 @@ GameScene::GameScene(UserActions &userActions) :
 
 bool GameScene::onEnter() {
 	std::string filePath = config_getBinPath() + "/../resources/levels/level1.lvl";
-	m_board.init(filePath);
+	if (!m_board.init(filePath)) {
+		return false;
+	}
 	renderer_initSpriteRenderer(&m_spriteRenderer);
 	m_reference = std::shared_ptr<GameObject>(new GameObject);
 	//m_animationCollection.loadAnimations(config_getBinPath() + "/../resources/animations.dat");
