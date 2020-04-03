@@ -25,7 +25,7 @@ const int WINDOW_HEIGHT = 600;
 bool _setBinaryPath(int argc, char* args[]);
 
 int main(int argc, char* args[]) {
-	setlocale(LC_ALL,"");
+	setlocale(LC_ALL, "en_US.UTF-8");
 	time_t t;
 	srand((unsigned int) time(&t));
 

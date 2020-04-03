@@ -27,9 +27,9 @@ void renderer_initTilemapRenderer(ObjectRenderer *renderer, float width, float h
 void renderer_initSpriteRenderer(ObjectRenderer *renderer) {
 	float vertices[] = {
 		// vertices        // texture    // color
-		2.0f, 2.0f, 0.0f, 1.0f, 0.0f, // top right
-		0.0f, 2.0f, 0.0f, 0.0f, 0.0f, // top left
-		2.0f, 0.0f, 0.0f, 1.0f, 1.0f, // bottom right
+		1.0f, 1.0f, 0.0f, 1.0f, 0.0f, // top right
+		0.0f, 1.0f, 0.0f, 0.0f, 0.0f, // top left
+		1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // bottom right
 		0.0f, 0.0f, 0.0f, 0.0f, 1.0f  // bottom left
 	};
 	unsigned int indices[] = {  // note that we start from 0!

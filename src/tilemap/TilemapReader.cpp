@@ -10,21 +10,25 @@
 const long unsigned MAX_CHARS_PER_LINE = 1024;
 const long unsigned MAX_CHARS_PER_NAME = 128;
 
+const int LAYER_TYPE_TILEMAP = 0;
+const int LAYER_TYPE_COLLISION = 1;
+
 bool TilemapReader::process(std::string filePath, TilemapFileFormat &data) {
 	std::ifstream fileInStream;
 	fileInStream.open(filePath);
 
 	bool valid = true;
+	bool collisionLayerParsed = false;
+	bool contentOpen = false;
+	int layerType;
 	char layerName[MAX_CHARS_PER_NAME];
 	float* content = 0;
-	bool contentOpen = false;
 	unsigned long contentSize = 0;
 	unsigned long contentFilled = 0;
 	TilemapLayerData layerData;
 	std::set<std::string> layerNames = {};
 	while (!fileInStream.eof()) {
 		char buf[MAX_CHARS_PER_LINE];
-		// @check too long lines
 		fileInStream.getline(buf, MAX_CHARS_PER_LINE);
 		if (fileInStream.fail() && !fileInStream.eof()) { // for too long lines
 			std::cerr << "Failed reading line: " << buf << std::endl;
@@ -46,8 +50,8 @@ bool TilemapReader::process(std::string filePath, TilemapFileFormat &data) {
 			m_currentStep = LAYER_START;
 		}
 		else if (m_currentStep == LAYER_START) {
-			int res = sscanf(buf, "layerstart %s", layerName);
-			if (res != 1) {
+			int res = sscanf(buf, "layerstart %d %s", &layerType, layerName);
+			if (res != 2) {
 				std::cerr << "Layer start missing" << std::endl;
 				valid = false;
 				break;
@@ -57,7 +61,19 @@ bool TilemapReader::process(std::string filePath, TilemapFileFormat &data) {
 				valid = false;
 				break;
 			}
-			m_currentStep = LAYER_ATLAS;
+
+			if (layerType == LAYER_TYPE_TILEMAP) {
+				m_currentStep = LAYER_ATLAS;
+			}
+			else if (layerType == LAYER_TYPE_COLLISION) {
+				if (collisionLayerParsed) {
+					std::cerr << "Collision layer already parsed\n";
+					valid = false;
+					break;
+				}
+				collisionLayerParsed = true;
+				m_currentStep = COLLISION_LAYER;
+			}
 			content = (float*) malloc(contentSize * sizeof(float));
 			contentFilled = 0;
 			contentOpen = true;
@@ -78,7 +94,7 @@ bool TilemapReader::process(std::string filePath, TilemapFileFormat &data) {
 			layerData.atlasHeight = atlasHeight;
 			m_currentStep = LAYER;
 		}
-		else if (m_currentStep == LAYER) {
+		else if (m_currentStep == LAYER || m_currentStep == COLLISION_LAYER) {
 			if (strncmp(buf, "layerend", 9) == 0) {
 				if (contentSize != contentFilled) {
 					std::cerr << "Integrity check failed: layer " << layerName
@@ -87,12 +103,14 @@ bool TilemapReader::process(std::string filePath, TilemapFileFormat &data) {
 					valid = false;
 					break;
 				}
-				layerData.textures["tilemap"] = texture_loadData(
-					layerName, data.width, data.height, content
-				);
-				free(content);
+				if (m_currentStep == LAYER) {
+					layerData.textures["tilemap"] = texture_loadData(
+						layerName, data.width, data.height, content
+					);
+					free(content);
+					data.layers.push_back(layerData);
+				}
 				contentOpen = false;
-				data.layers.push_back(layerData);
 				m_currentStep = LAYER_START;
 				continue;
 			}
@@ -116,7 +134,12 @@ bool TilemapReader::process(std::string filePath, TilemapFileFormat &data) {
 					valid = false;
 					break;
 				}
-				content[contentFilled] = (float) val;
+				if (m_currentStep == LAYER) {
+					content[contentFilled] = (float) val;
+				}
+				else if (m_currentStep == COLLISION_LAYER) {
+					data.collisionMap.push_back((char) val);
+				}
 				contentFilled++;
 			}
 		}

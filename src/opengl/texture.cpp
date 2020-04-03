@@ -7,7 +7,7 @@
 #include "glad/glad.h"
 #include "stb_image.h"
 
-const char* resourcesDir = "/../resources/";
+const char* resourcesDir = "/../resources/textures/";
 
 std::map<std::string, Texture> textures = {};
 

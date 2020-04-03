@@ -16,7 +16,7 @@ void main()
 	vec3 pos = aPos;
 	pos.x *= width;
 	pos.y *= height;
-	pos.x -= width * 0.5f;
+	pos.x += (1.0 - width) * 0.5;
 	gl_Position = projection * view * model * vec4(pos, 1.0);
 	TexCoord = aTextCoord;
 }

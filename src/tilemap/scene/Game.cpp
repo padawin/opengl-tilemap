@@ -1,7 +1,9 @@
 #include "Game.hpp"
 #include "tilemap/components/Animation.hpp"
 #include "tilemap/components/Movements.hpp"
+#include "tilemap/components/Collision.hpp"
 #include "tilemap/Animation.hpp"
+#include "tilemap/AnimationReader.hpp"
 #include "tilemap/renderers.hpp"
 #include "opengl/texture.hpp"
 #include "game/config.hpp"
@@ -20,44 +22,36 @@ GameScene::GameScene(UserActions &userActions) :
 }
 
 bool GameScene::onEnter() {
-	std::string filePath = config_getBinPath() + "/../resources/levels/level1.lvl";
-	m_board.init(filePath);
+	std::string levelFilePath = config_getBinPath() + "/../resources/levels/level1.lvl";
+	std::string animationsFilePath = config_getBinPath() + "/../resources/animations.dat";
+	if (!m_board.init(levelFilePath)) {
+		return false;
+	}
 	renderer_initSpriteRenderer(&m_spriteRenderer);
 	m_reference = std::shared_ptr<GameObject>(new GameObject);
-	//m_animationCollection.loadAnimations(config_getBinPath() + "/../resources/animations.dat");
-	auto walkUp = m_animationCollection.createAnimation("walkUp", true, 0.3f);
-	auto walkDown = m_animationCollection.createAnimation("walkDown", true, 0.3f);
-	auto walkLeft = m_animationCollection.createAnimation("walkLeft", true, 0.3f);
-	auto walkRight = m_animationCollection.createAnimation("walkRight", true, 0.3f);
-	walkUp->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 3, 12, 8);
-	walkUp->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 2, 3, 12, 8);
-	walkUp->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 3, 12, 8);
-	walkUp->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 0, 3, 12, 8);
-	walkDown->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 0, 12, 8);
-	walkDown->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 2, 0, 12, 8);
-	walkDown->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 0, 12, 8);
-	walkDown->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 0, 0, 12, 8);
-	walkLeft->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 1, 12, 8);
-	walkLeft->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 2, 1, 12, 8);
-	walkLeft->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 1, 12, 8);
-	walkLeft->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 0, 1, 12, 8);
-	walkRight->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 2, 12, 8);
-	walkRight->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 2, 2, 12, 8);
-	walkRight->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 1, 2, 12, 8);
-	walkRight->addFrame(texture_get("chara6.png"), 1.0f, 72.0f / 52.0f, 0, 2, 12, 8);
+	AnimationReader reader;
+	if (!reader.process(animationsFilePath, &m_animationCollection)) {
+		return false;
+	}
 	auto animationComponent = std::shared_ptr<AnimationComponent>(new AnimationComponent(
 		m_reference, std::shared_ptr<ObjectRenderer>(&m_spriteRenderer)
 	));
-	animationComponent->addAnimation("walkUp", walkUp);
-	animationComponent->addAnimation("walkDown", walkDown);
-	animationComponent->addAnimation("walkLeft", walkLeft);
-	animationComponent->addAnimation("walkRight", walkRight);
+	animationComponent->addAnimation("walkUp", m_animationCollection.getAnimation("walkUp"));
+	animationComponent->addAnimation("walkLeft", m_animationCollection.getAnimation("walkLeft"));
+	animationComponent->addAnimation("walkRight", m_animationCollection.getAnimation("walkRight"));
+	animationComponent->addAnimation("walkDown", m_animationCollection.getAnimation("walkDown"));
 	float playerSpeed = 0.05f;
 	auto movementsComponent = std::shared_ptr<MovementsComponent>(new MovementsComponent(
 		m_reference, m_userActions, playerSpeed
 	));
+	auto collisionComponent = std::shared_ptr<CollisionComponent>(new CollisionComponent(m_reference, m_board));
+	collisionComponent->addHitboxPoint(0.20f, 0.01f);
+	collisionComponent->addHitboxPoint(0.75f, 0.01f);
+	collisionComponent->addHitboxPoint(0.75f, 0.33f);
+	collisionComponent->addHitboxPoint(0.20f, 0.33f);
 	m_reference->addComponent("animation", animationComponent);
 	m_reference->addComponent("movements", movementsComponent);
+	m_reference->addComponent("collision", collisionComponent);
 	m_reference->initComponents();
 	m_reference->setPosition(3.0f, 4.0f, 1.0f);
 	setCameraView(std::shared_ptr<CameraView>(new FollowView(m_reference, glm::vec3(0.0f, 0.0f, 15.0f))));

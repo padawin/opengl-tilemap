@@ -19,6 +19,7 @@ MovementsComponent::MovementsComponent(std::shared_ptr<GameObject> owner, UserAc
 }
 void MovementsComponent::init() {
 	m_animationComponent = std::dynamic_pointer_cast<AnimationComponent>(m_owner->getComponent("animation"));
+	m_collisionComponent = std::dynamic_pointer_cast<CollisionComponent>(m_owner->getComponent("collision"));
 }
 
 void MovementsComponent::update() {
@@ -63,6 +64,8 @@ void MovementsComponent::_updatePosition(unsigned char pressedKeys) {
 	float xSpeeds[] = {0.0f, 0.0f, m_fSpeed, -m_fSpeed};
 	float ySpeeds[] = {m_fSpeed, -m_fSpeed, 0.0f, 0.0f};
 	glm::vec3 pos = m_owner->getPosition();
+	float oldX = pos.x;
+	float oldY = pos.y;
 
 	if (m_directionSpriteToRender & HORIZONTAL_DIRECTION) {
 		pos.x += xSpeeds[m_directionIndex];
@@ -83,4 +86,7 @@ void MovementsComponent::_updatePosition(unsigned char pressedKeys) {
 		}
 	}
 	m_owner->setPosition(pos.x, pos.y, pos.z);
+	if (m_collisionComponent && m_collisionComponent->collides()) {
+		m_owner->setPosition(oldX, oldY, pos.z);
+	}
 }
