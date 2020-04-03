@@ -19,7 +19,7 @@ void Tilemap::render(std::shared_ptr<Camera> camera) {
 		m_renderer.setUniform("tileAtlasHeight", layer.atlasHeight);
 		m_layer.setPosition(0.0f, 0.0f, z);
 		m_layer.render(camera, &m_renderer);
-		z += 0.1f;
+		z += 0.5f;
 	}
 }
 
