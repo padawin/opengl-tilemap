@@ -22,3 +22,17 @@ void Tilemap::render(std::shared_ptr<Camera> camera) {
 		z += 0.1f;
 	}
 }
+
+bool Tilemap::collides(float x, float y) const {
+	if (m_layers.collisionMap.size() == 0) {
+		return false;
+	}
+	// test if any tile within `rect` is a colliding tile
+	int xCoord = (int) floor(x);
+	int yCoord = m_layers.height - (int) floor(y) - 1;
+	if (xCoord < 0 || xCoord >= m_layers.width || yCoord < 0 || yCoord > m_layers.height) {
+		return true;
+	}
+	long unsigned cellIndex = (long unsigned) (yCoord * m_layers.width + xCoord);
+	return m_layers.collisionMap[cellIndex] == 1;
+}

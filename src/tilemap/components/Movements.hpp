@@ -4,10 +4,12 @@
 #include "game/UserActions.hpp"
 #include "game/Component.hpp"
 #include "Animation.hpp"
+#include "Collision.hpp"
 
 class MovementsComponent : public Component {
 	private:
 	std::shared_ptr<AnimationComponent> m_animationComponent = 0;
+	std::shared_ptr<CollisionComponent> m_collisionComponent = 0;
 	unsigned char m_movements = 0;
 	unsigned char m_directionSpriteToRender = 0;
 	int m_directionIndex = 0;

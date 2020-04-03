@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include "tilemap/components/Animation.hpp"
 #include "tilemap/components/Movements.hpp"
+#include "tilemap/components/Collision.hpp"
 #include "tilemap/Animation.hpp"
 #include "tilemap/AnimationReader.hpp"
 #include "tilemap/renderers.hpp"
@@ -43,8 +44,14 @@ bool GameScene::onEnter() {
 	auto movementsComponent = std::shared_ptr<MovementsComponent>(new MovementsComponent(
 		m_reference, m_userActions, playerSpeed
 	));
+	auto collisionComponent = std::shared_ptr<CollisionComponent>(new CollisionComponent(m_reference, m_board));
+	collisionComponent->addHitboxPoint(0.20f, 0.01f);
+	collisionComponent->addHitboxPoint(0.75f, 0.01f);
+	collisionComponent->addHitboxPoint(0.75f, 0.33f);
+	collisionComponent->addHitboxPoint(0.20f, 0.33f);
 	m_reference->addComponent("animation", animationComponent);
 	m_reference->addComponent("movements", movementsComponent);
+	m_reference->addComponent("collision", collisionComponent);
 	m_reference->initComponents();
 	m_reference->setPosition(3.0f, 4.0f, 1.0f);
 	setCameraView(std::shared_ptr<CameraView>(new FollowView(m_reference, glm::vec3(0.0f, 0.0f, 15.0f))));

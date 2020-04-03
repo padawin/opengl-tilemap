@@ -19,6 +19,7 @@ class Tilemap {
 	~Tilemap() {}
 	bool init(std::string filePath);
 	void render(std::shared_ptr<Camera> camera);
+	bool collides(float x, float y) const;
 };
 
 #endif
