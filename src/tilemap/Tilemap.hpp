@@ -15,16 +15,17 @@ class Tilemap {
 	int m_iWidth = 0;
 	int m_iHeight = 0;
 	std::vector<TilemapLayerData> m_vLayers = {};
-	std::vector<char> m_collisionMap = {};
-	std::map<std::string, char> m_mTileProperties = {};
+	std::map<std::string, std::vector<char>> m_mTileProperties = {};
 	TilemapLayer m_layer = TilemapLayer();
 	ObjectRenderer m_renderer = ObjectRenderer();
+
+	long _getTileIndexFromCoord(float x, float y) const;
 
 	public:
 	~Tilemap() {}
 	bool init(std::string filePath);
 	void render(std::shared_ptr<Camera> camera);
-	bool collides(float x, float y) const;
+	bool tilePropertyEquals(std::string propertyName, float x, float y, char value);
 };
 
 #endif

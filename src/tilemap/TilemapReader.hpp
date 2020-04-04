@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 
-typedef enum {SIZE, LAYER_START, LAYER_ATLAS, LAYER, COLLISION_LAYER, END_LAYER} TilemapParseStep;
+typedef enum {SIZE, LAYER_START, LAYER_ATLAS, LAYER, PROPERTY_LAYER, END_LAYER} TilemapParseStep;
 
 typedef struct {
 	std::map<const char*, unsigned int> textures = {};

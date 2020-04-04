@@ -15,9 +15,11 @@ bool CollisionComponent::collides() const {
 	float baseY = m_owner->getPosition().y;
 	bool collides = false;
 	for (auto point : m_hitboxPoints) {
-		collides = collides || m_tilemap.collides(
+		collides = collides || m_tilemap.tilePropertyEquals(
+			"collision",
 			baseX + point.first,
-			baseY + point.second
+			baseY + point.second,
+			1
 		);
 	}
 	return collides;

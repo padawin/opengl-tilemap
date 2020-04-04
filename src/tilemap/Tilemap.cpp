@@ -21,16 +21,19 @@ void Tilemap::render(std::shared_ptr<Camera> camera) {
 	}
 }
 
-bool Tilemap::collides(float x, float y) const {
-	if (m_collisionMap.size() == 0) {
-		return false;
-	}
-	// test if any tile within `rect` is a colliding tile
+long Tilemap::_getTileIndexFromCoord(float x, float y) const {
 	int xCoord = (int) floor(x);
 	int yCoord = m_iHeight - (int) floor(y) - 1;
 	if (xCoord < 0 || xCoord >= m_iWidth || yCoord < 0 || yCoord > m_iHeight) {
-		return true;
+		return -1;
 	}
-	long unsigned cellIndex = (long unsigned) (yCoord * m_iWidth + xCoord);
-	return m_collisionMap[cellIndex] == 1;
+	return yCoord * m_iWidth + xCoord;
+}
+
+bool Tilemap::tilePropertyEquals(std::string propertyName, float x, float y, char value) {
+	long tileIndex = _getTileIndexFromCoord(x, y);
+	if (tileIndex == -1 || m_mTileProperties.find(propertyName) == m_mTileProperties.end()) {
+		return false;
+	}
+	return m_mTileProperties[propertyName][(unsigned) tileIndex] == value;
 }
