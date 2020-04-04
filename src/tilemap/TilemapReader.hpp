@@ -11,6 +11,7 @@ typedef struct {
 	std::map<const char*, unsigned int> textures = {};
 	unsigned int atlasWidth = 0;
 	unsigned int atlasHeight = 0;
+	float zPos = 0.0f;
 } TilemapLayerData;
 
 typedef struct {
