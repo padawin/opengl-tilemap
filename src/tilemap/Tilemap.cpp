@@ -4,15 +4,15 @@
 
 bool Tilemap::init(std::string filePath) {
 	TilemapReader reader;
-	if (reader.process(filePath, m_layers)) {
-		renderer_initTilemapRenderer(&m_renderer, (float) m_layers.width, (float) m_layers.height);
+	if (reader.process(filePath, this)) {
+		renderer_initTilemapRenderer(&m_renderer, (float) m_iWidth, (float) m_iHeight);
 		return true;
 	}
 	return false;
 }
 
 void Tilemap::render(std::shared_ptr<Camera> camera) {
-	for (auto layer : m_layers.layers) {
+	for (auto layer : m_vLayers) {
 		m_renderer.setTextures(layer.textures);
 		m_renderer.setUniform("tileAtlasWidth", layer.atlasWidth);
 		m_renderer.setUniform("tileAtlasHeight", layer.atlasHeight);
@@ -21,16 +21,19 @@ void Tilemap::render(std::shared_ptr<Camera> camera) {
 	}
 }
 
-bool Tilemap::collides(float x, float y) const {
-	if (m_layers.collisionMap.size() == 0) {
+long Tilemap::_getTileIndexFromCoord(float x, float y) const {
+	int xCoord = (int) floor(x);
+	int yCoord = m_iHeight - (int) floor(y) - 1;
+	if (xCoord < 0 || xCoord >= m_iWidth || yCoord < 0 || yCoord > m_iHeight) {
+		return -1;
+	}
+	return yCoord * m_iWidth + xCoord;
+}
+
+bool Tilemap::tilePropertyEquals(std::string propertyName, float x, float y, char value) {
+	long tileIndex = _getTileIndexFromCoord(x, y);
+	if (tileIndex == -1 || m_mTileProperties.find(propertyName) == m_mTileProperties.end()) {
 		return false;
 	}
-	// test if any tile within `rect` is a colliding tile
-	int xCoord = (int) floor(x);
-	int yCoord = m_layers.height - (int) floor(y) - 1;
-	if (xCoord < 0 || xCoord >= m_layers.width || yCoord < 0 || yCoord > m_layers.height) {
-		return true;
-	}
-	long unsigned cellIndex = (long unsigned) (yCoord * m_layers.width + xCoord);
-	return m_layers.collisionMap[cellIndex] == 1;
+	return m_mTileProperties[propertyName][(unsigned) tileIndex] == value;
 }
