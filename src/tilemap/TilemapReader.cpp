@@ -1,4 +1,5 @@
 #include "TilemapReader.hpp"
+#include "Tilemap.hpp"
 #include "opengl/texture.hpp"
 #include <set>
 #include <stdlib.h>
@@ -13,7 +14,7 @@ const long unsigned MAX_CHARS_PER_NAME = 128;
 const int LAYER_TYPE_TILEMAP = 0;
 const int LAYER_TYPE_COLLISION = 1;
 
-bool TilemapReader::process(std::string filePath, TilemapFileFormat &data) {
+bool TilemapReader::process(std::string filePath, Tilemap *tilemap) {
 	std::ifstream fileInStream;
 	fileInStream.open(filePath);
 
@@ -41,12 +42,12 @@ bool TilemapReader::process(std::string filePath, TilemapFileFormat &data) {
 		}
 
 		if (m_currentStep == SIZE) {
-			if (sscanf(buf, "size %d %d", &data.width, &data.height) != 2) {
+			if (sscanf(buf, "size %d %d", &tilemap->m_iWidth, &tilemap->m_iHeight) != 2) {
 				std::cerr << "Failed reading size: " << buf << std::endl;
 				valid = false;
 				break;
 			}
-			contentSize = (unsigned) (data.width * data.height);
+			contentSize = (unsigned) (tilemap->m_iWidth * tilemap->m_iHeight);
 			m_currentStep = LAYER_START;
 		}
 		else if (m_currentStep == LAYER_START) {
@@ -107,10 +108,10 @@ bool TilemapReader::process(std::string filePath, TilemapFileFormat &data) {
 				}
 				if (m_currentStep == LAYER) {
 					layerData.textures["tilemap"] = texture_loadData(
-						layerName, data.width, data.height, content
+						layerName, tilemap->m_iWidth, tilemap->m_iHeight, content
 					);
 					free(content);
-					data.layers.push_back(layerData);
+					tilemap->m_vLayers.push_back(layerData);
 				}
 				contentOpen = false;
 				m_currentStep = LAYER_START;
@@ -140,7 +141,7 @@ bool TilemapReader::process(std::string filePath, TilemapFileFormat &data) {
 					content[contentFilled] = (float) val;
 				}
 				else if (m_currentStep == COLLISION_LAYER) {
-					data.collisionMap.push_back((char) val);
+					tilemap->m_collisionMap.push_back((char) val);
 				}
 				contentFilled++;
 			}

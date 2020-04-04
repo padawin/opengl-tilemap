@@ -14,19 +14,14 @@ typedef struct {
 	float zPos = 0.0f;
 } TilemapLayerData;
 
-typedef struct {
-	int width = 0;
-	int height = 0;
-	std::vector<TilemapLayerData> layers = {};
-	std::vector<char> collisionMap = {};
-} TilemapFileFormat;
+class Tilemap;
 
 class TilemapReader {
 	private:
 	TilemapParseStep m_currentStep = SIZE;
 
 	public:
-	bool process(std::string filePath, TilemapFileFormat &data);
+	bool process(std::string filePath, Tilemap *data);
 };
 
 #endif
