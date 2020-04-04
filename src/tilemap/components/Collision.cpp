@@ -13,14 +13,14 @@ void CollisionComponent::addHitboxPoint(float x, float y) {
 bool CollisionComponent::collides() const {
 	float baseX = m_owner->getPosition().x;
 	float baseY = m_owner->getPosition().y;
-	bool collides = false;
+	bool walkable = true;
 	for (auto point : m_hitboxPoints) {
-		collides = collides || m_tilemap.tilePropertyEquals(
-			"collision",
+		walkable = walkable && m_tilemap.tilePropertyEquals(
+			"walkable",
 			baseX + point.first,
 			baseY + point.second,
 			1
 		);
 	}
-	return collides;
+	return !walkable;
 }
