@@ -1,9 +1,11 @@
 size 10 10
 # Layer format:
-# layerstart <type> <name>
+# layerstart <type> <name> <zPos>
 # type 0 = tile to display
 # type 1 = collision map, only 1's (colliding) or 0's (not colliding)
-layerstart 0 ground
+# Regarding the zPos, the player is rendered at the zpos 1.0, so anything higher
+# than 1.0 # will hide the player, and anything lower with be behind the player
+layerstart 0 ground 0.0
 atlas atlas.png 5 5
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,15,8,8,8,9,
@@ -16,7 +18,7 @@ atlas atlas.png 5 5
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0
 layerend
-layerstart 0 buildings
+layerstart 0 buildings 1.1
 atlas atlas.png 5 5
 0,0,0,0,0,2,3,3,3,4,
 0,2,3,3,3,0,0,0,0,0,
@@ -29,7 +31,7 @@ atlas atlas.png 5 5
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0
 layerend
-layerstart 1 collision
+layerstart 1 collision 0.0
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,1,1,1,1,1,
 0,1,1,1,1,1,0,0,0,1,

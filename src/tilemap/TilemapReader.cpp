@@ -50,8 +50,9 @@ bool TilemapReader::process(std::string filePath, TilemapFileFormat &data) {
 			m_currentStep = LAYER_START;
 		}
 		else if (m_currentStep == LAYER_START) {
-			int res = sscanf(buf, "layerstart %d %s", &layerType, layerName);
-			if (res != 2) {
+			float layerZPos;
+			int res = sscanf(buf, "layerstart %d %s %f", &layerType, layerName, &layerZPos);
+			if (res != 3) {
 				std::cerr << "Layer start missing" << std::endl;
 				valid = false;
 				break;
@@ -78,6 +79,7 @@ bool TilemapReader::process(std::string filePath, TilemapFileFormat &data) {
 			contentFilled = 0;
 			contentOpen = true;
 			layerData = TilemapLayerData();
+			layerData.zPos = layerZPos;
 			continue;
 		}
 		else if (m_currentStep == LAYER_ATLAS) {
