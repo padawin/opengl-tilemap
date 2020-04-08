@@ -53,10 +53,10 @@ bool GameScene::onEnter() {
 	m_reference->addComponent("movements", movementsComponent);
 	m_reference->addComponent("collision", collisionComponent);
 	m_reference->initComponents();
-	m_reference->setPosition(3.0f, 4.0f, 1.0f);
+	m_reference->setPosition(0.0f, 0.0f, 1.0f);
 	setCameraView(std::shared_ptr<CameraView>(new FollowView(m_reference, glm::vec3(0.0f, 0.0f, 15.0f))));
 
-	setCamera(std::shared_ptr<Camera>(new OrthoCamera(m_cameraView, -6.0f, 6.0f, -4.0f, 4.0f, 0.1f, 100.0f)));
+	setCamera(std::shared_ptr<Camera>(new OrthoCamera(m_cameraView, -4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f)));
 	return true;
 }
 

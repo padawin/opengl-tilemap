@@ -19,8 +19,8 @@
 #include "tilemap/scene/Game.hpp"
 
 const char* WINDOW_TITLE = "Learn OpenGL";
-const int WINDOW_WIDTH = 800;
-const int WINDOW_HEIGHT = 600;
+const int WINDOW_WIDTH = 1280;
+const int WINDOW_HEIGHT = 960;
 
 bool _setBinaryPath(int argc, char* args[]);
 
