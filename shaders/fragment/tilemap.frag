@@ -18,7 +18,13 @@ void main() {
 
 	// With these coordinates, get the index of the tile to use in the tilemap
 	float index = texelFetch(tilemap, tilePos, 0).r;
+	// From Tiled format, the index 0 means no tile, then the other indexes can
+	// be -1'ed to get the actual index
+	if (index == 0) {
+		discard;
+	}
 
+	index--;
 	// From the index, we can compute the location of the tile texture we want
 	// in the texture atlas. For example with a 4 textures atlas:
 	//
