@@ -21,6 +21,8 @@ class GameObject {
 	virtual void init() {};
 	virtual void setPosition(float x, float y, float z);
 	virtual glm::vec3 getPosition() const;
+	virtual glm::vec3 getRotation() const;
+	virtual glm::vec3 getScale() const;
 	virtual void update();
 	virtual void render(std::shared_ptr<Camera> camera, GameObjectRenderer *renderer);
 	virtual void render(std::shared_ptr<Camera> camera, GameObjectRenderer *renderer, glm::vec3 position, glm::vec3 angle, glm::vec3 scale);

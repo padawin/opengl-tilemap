@@ -29,6 +29,14 @@ glm::vec3 GameObject::getPosition() const {
 	return m_position;
 }
 
+glm::vec3 GameObject::getRotation() const {
+	return m_angle;
+}
+
+glm::vec3 GameObject::getScale() const {
+	return m_scale;
+}
+
 void GameObject::addComponent(std::string name, std::shared_ptr<Component> component) {
 	m_mComponents[name] = component;
 }
