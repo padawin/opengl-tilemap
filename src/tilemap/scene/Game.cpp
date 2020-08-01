@@ -72,5 +72,5 @@ void GameScene::update(StateMachine<SceneState> &stateMachine) {
 
 void GameScene::render() {
 	m_board.render(m_camera);
-	m_reference->render(m_camera, &m_spriteRenderer);
+	m_reference->render(m_camera);
 }

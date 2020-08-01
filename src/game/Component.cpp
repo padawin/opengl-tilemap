@@ -11,5 +11,5 @@ void Component::init() {
 void Component::update() {
 }
 
-void Component::render() {
+void Component::render(std::shared_ptr<Camera> camera __attribute__((unused))) {
 }
