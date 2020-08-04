@@ -16,7 +16,7 @@ void renderer_initTilemapRenderer(ObjectRenderer *renderer, float width, float h
 
 	renderer->init();
 	renderer->setShaderProgram("tilemap");
-	renderer->setVertices(
+	renderer->setIndexedVertices(
 		vertices,
 		indices,
 		(int) sizeof(vertices),
@@ -39,7 +39,7 @@ void renderer_initSpriteRenderer(ObjectRenderer *renderer) {
 
 	renderer->init();
 	renderer->setShaderProgram("sprite");
-	renderer->setVertices(
+	renderer->setIndexedVertices(
 		vertices,
 		indices,
 		(int) sizeof(vertices),
