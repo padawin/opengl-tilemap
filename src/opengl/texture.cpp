@@ -77,7 +77,14 @@ GLuint texture_loadData(std::string name, int width, int height, GLfloat* data) 
 	return t.textureID;
 }
 
-GLuint texture_get(const char* textureName) {
+Texture* texture_get(const char* textureName) {
+	if (textures.find(textureName) == textures.end()) {
+		return 0;
+	}
+	return &textures[textureName];
+}
+
+GLuint texture_getID(const char* textureName) {
 	if (textures.find(textureName) == textures.end()) {
 		return 0;
 	}

@@ -90,7 +90,7 @@ bool TilemapReader::process(std::string filePath, Tilemap *tilemap) {
 				break;
 			}
 
-			layerData.textures["tileAtlas"] = texture_get(atlasName);
+			layerData.textures["tileAtlas"] = texture_getID(atlasName);
 			layerData.atlasWidth = atlasWidth;
 			layerData.atlasHeight = atlasHeight;
 			m_currentStep = LAYER;

@@ -61,7 +61,7 @@ bool AnimationReader::process(std::string filePath, AnimationCollection *animati
 				valid = false;
 				break;
 			}
-			currentAnimation->addFrame(texture_get(textureName), w, h, (unsigned) x, (unsigned) y, (unsigned) atlasWidth, (unsigned) atlasHeight);
+			currentAnimation->addFrame(texture_getID(textureName), w, h, (unsigned) x, (unsigned) y, (unsigned) atlasWidth, (unsigned) atlasHeight);
 		}
 	}
 
