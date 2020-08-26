@@ -64,6 +64,33 @@ bool _loadTexture(std::string name, std::string path) {
 	return true;
 }
 
+GLuint texture_init(std::string name, int width, int height) {
+	Texture t;
+	t.width = width;
+	t.height = height;
+	glGenTextures(1, &t.textureID);
+	glBindTexture(GL_TEXTURE_2D, t.textureID);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_R8, t.width, t.height);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+	textures[name] = t;
+	return t.textureID;
+}
+
+bool texture_addData(std::string name, unsigned char* data, int destX, int destY, int width, int height) {
+	auto iter = textures.find(name);
+	if (iter == textures.end()) {
+		return false;
+	}
+	Texture t = iter->second;
+	glBindTexture(GL_TEXTURE_2D, t.textureID);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, destX, destY, width, height, GL_RED, GL_UNSIGNED_BYTE, data);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	return true;
+}
+
 GLuint texture_loadData(std::string name, int width, int height, GLfloat* data) {
 	Texture t;
 	t.width = width;

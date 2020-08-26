@@ -29,9 +29,9 @@ BUILDDIR = build
 RESOURCESDIR = resources
 CONFDIST := config/playercontrolsmapping.txt
 
-IFLAGS = -I$(LIBDIR)/glad/include -I$(LIBDIR)/stb_image -Isrc
+IFLAGS = -I$(LIBDIR)/glad/include -I$(LIBDIR)/stb_image -Isrc -I/usr/include/freetype2
 CFLAGS += $(IFLAGS)
-LIBS = -lGL -lGLU -lglfw -ldl
+LIBS = -lGL -lGLU -lglfw -ldl -lfreetype
 
 DEP := $(shell find $(SRCDIR)/ $(LIBDIR)/ -type f -name '*.hpp' -o -name '*.h')
 

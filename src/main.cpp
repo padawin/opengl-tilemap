@@ -15,6 +15,7 @@
 #include "opengl/Renderer.hpp"
 #include "opengl/shader.hpp"
 #include "opengl/texture.hpp"
+#include "opengl/font.hpp"
 
 #include "tilemap/scene/Game.hpp"
 
@@ -49,11 +50,14 @@ int main(int argc, char* args[]) {
 	if (g.init()
 		&& shader_loadPrograms()
 		&& texture_loadAll()
+		&& font_init()
+		&& font_loadAll()
 	) {
 		stateMachine.pushState(new GameScene(userActions));
 		g.mainLoop();
 	}
 
+	font_clear();
 	g.shutdown();
 	return 0;
 }
