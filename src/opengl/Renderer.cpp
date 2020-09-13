@@ -20,6 +20,8 @@ bool OpenGLRenderer::init(void) {
 	}
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// @NOTE This defines the viewport used by OpenGL IN the window, not
 	// the position/geometry of the window in the screen.
