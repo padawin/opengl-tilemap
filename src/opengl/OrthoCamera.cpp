@@ -8,6 +8,13 @@ OrthoCamera::OrthoCamera(std::shared_ptr<CameraView> view, float left, float rig
 {
 }
 
+OrthoCamera::OrthoCamera(std::shared_ptr<CameraView> view, float left, float right, float bottom, float top) :
+	Camera(view),
+	m_projectionMatrix(glm::ortho(left, right, bottom, top)),
+	m_position(glm::vec3(0.0f, 0.0f, 0.0f))
+{
+}
+
 glm::mat4 OrthoCamera::getProjection() const {
 	return m_projectionMatrix;
 }

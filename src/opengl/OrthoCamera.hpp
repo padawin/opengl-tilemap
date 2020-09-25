@@ -13,6 +13,7 @@ class OrthoCamera : public Camera {
 
 	public:
 	OrthoCamera(std::shared_ptr<CameraView> view, float left, float right, float bottom, float top, float near, float far);
+	OrthoCamera(std::shared_ptr<CameraView> view, float left, float right, float bottom, float top);
 	glm::mat4 getProjection() const;
 };
 
