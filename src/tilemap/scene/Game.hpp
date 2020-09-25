@@ -11,6 +11,7 @@
 class GameScene : public SceneState {
 	private:
 	Tilemap m_board;
+	std::shared_ptr<Camera> m_UICamera = nullptr;
 	ObjectRenderer m_spriteRenderer = ObjectRenderer();
 	AnimationCollection m_animationCollection = AnimationCollection();
 	std::shared_ptr<GameObject> m_reference = 0;
