@@ -5,5 +5,8 @@
 
 void config_setBinPath(const char* path);
 std::string config_getBinPath();
+void config_setScreenSize(const int width, const int height);
+int config_getScreenWidth();
+int config_getScreenHeight();
 
 #endif

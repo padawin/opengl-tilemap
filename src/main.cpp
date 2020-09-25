@@ -30,6 +30,7 @@ int main(int argc, char* args[]) {
 	time_t t;
 	srand((unsigned int) time(&t));
 
+	config_setScreenSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!_setBinaryPath(argc, args)) {
 		return 1;
 	}

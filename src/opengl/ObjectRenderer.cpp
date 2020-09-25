@@ -1,4 +1,5 @@
 #include <iostream>
+#include "game/config.hpp"
 #include "ObjectRenderer.hpp"
 #include "shader.hpp"
 #include <GLFW/glfw3.h>
@@ -162,6 +163,8 @@ void ObjectRenderer::render(std::shared_ptr<Camera> camera) {
 	glm::mat4 view = camera->getView();
 	glm::mat4 projection = camera->getProjection();
 
+	int screenWidthLocation = glGetUniformLocation(shaderProgram, "screenWidth");
+	int screenHeightLocation = glGetUniformLocation(shaderProgram, "screenHeight");
 	int timeLocation = glGetUniformLocation(shaderProgram, "currentTime");
 	int transformLocation = glGetUniformLocation(shaderProgram, "model");
 	int viewLocation = glGetUniformLocation(shaderProgram, "view");
@@ -170,6 +173,8 @@ void ObjectRenderer::render(std::shared_ptr<Camera> camera) {
 	glUseProgram(shaderProgram);
 
 	glUniform1f(timeLocation, timeValue);
+	glUniform1i(screenWidthLocation, config_getScreenWidth());
+	glUniform1i(screenHeightLocation, config_getScreenHeight());
 	glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
 	glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
