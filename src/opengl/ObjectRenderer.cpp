@@ -144,6 +144,13 @@ void ObjectRenderer::setUniform(std::string name, GLfloat value) {
 	glUniform1f(location, value);
 }
 
+void ObjectRenderer::setUniform(std::string name, bool value) {
+	GLuint shaderProgram = shader_getProgram(m_sShaderProgram.c_str());
+	int location = glGetUniformLocation(shaderProgram, name.c_str());
+	glUseProgram(shaderProgram);
+	glUniform1i(location, value ? 1 : 0);
+}
+
 void ObjectRenderer::render(std::shared_ptr<Camera> camera) {
 	GLuint shaderProgram = shader_getProgram(m_sShaderProgram.c_str());
 
