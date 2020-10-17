@@ -15,6 +15,8 @@ class GameScene : public SceneState {
 	ObjectRenderer m_spriteRenderer = ObjectRenderer();
 	AnimationCollection m_animationCollection = AnimationCollection();
 	std::shared_ptr<GameObject> m_reference = 0;
+	std::shared_ptr<GameObject> m_name = 0;
+	std::shared_ptr<GameObject> m_UIText = 0;
 
 	public:
 	GameScene(UserActions &userActions);

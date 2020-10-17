@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "opengl/components/Text.hpp"
 #include "tilemap/components/Animation.hpp"
 #include "tilemap/components/Movements.hpp"
 #include "tilemap/components/Collision.hpp"
@@ -55,6 +56,22 @@ bool GameScene::onEnter() {
 	m_reference->addComponent("collision", collisionComponent);
 	m_reference->initComponents();
 	m_reference->setPosition(0.0f, 0.0f, 1.0f);
+
+	m_UIText = std::shared_ptr<GameObject>(new GameObject);
+	m_UIText->setPosition(1.0f, 1.0f, 0.0f);
+	auto uiTextComponent = std::shared_ptr<TextComponent>(new TextComponent(
+		m_UIText, "UI Text", "LiberationMono-Regular.ttf", 12
+	));
+	uiTextComponent->setUI();
+	m_UIText->addComponent("text", uiTextComponent);
+
+	m_name = std::shared_ptr<GameObject>(new GameObject);
+	m_name->setPosition(1.0f, 1.0f, 0.0f);
+	auto textComponent = std::shared_ptr<TextComponent>(new TextComponent(
+		m_name, "Player", "LiberationMono-Regular.ttf", 12
+	));
+	m_name->addComponent("text", textComponent);
+
 	setCameraView(std::shared_ptr<CameraView>(new FollowView(m_reference, glm::vec3(0.0f, 0.0f, 15.0f))));
 
 	float cameraLeft = -4.0f;
@@ -83,4 +100,6 @@ void GameScene::update(StateMachine<SceneState> &stateMachine) {
 void GameScene::render() {
 	m_board.render(m_camera);
 	m_reference->render(m_camera);
+	m_UIText->render(m_UICamera);
+	m_name->render(m_camera);
 }
