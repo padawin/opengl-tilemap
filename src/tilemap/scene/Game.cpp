@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "opengl/components/Text.hpp"
 #include "tilemap/components/Animation.hpp"
 #include "tilemap/components/Movements.hpp"
 #include "tilemap/components/Collision.hpp"
@@ -8,8 +9,9 @@
 #include "opengl/texture.hpp"
 #include "game/config.hpp"
 #include "opengl/OrthoCamera.hpp"
+#include "game/config.hpp"
 #include "game/cameraView/Follow.hpp"
-#include <iostream>
+#include "game/cameraView/Fixed.hpp"
 
 std::string GameScene::getStateID() const {
 	return "GameScene";
@@ -54,9 +56,34 @@ bool GameScene::onEnter() {
 	m_reference->addComponent("collision", collisionComponent);
 	m_reference->initComponents();
 	m_reference->setPosition(0.0f, 0.0f, 1.0f);
+
+	m_UIText = std::shared_ptr<GameObject>(new GameObject);
+	m_UIText->setPosition(1.0f, 1.0f, 0.0f);
+	auto uiTextComponent = std::shared_ptr<TextComponent>(new TextComponent(
+		m_UIText, "UI Text", "LiberationMono-Regular.ttf", 48
+	));
+	uiTextComponent->setUI();
+	m_UIText->addComponent("text", uiTextComponent);
+
+	m_name = std::shared_ptr<GameObject>(new GameObject);
+	m_name->setPosition(1.0f, 1.0f, 0.0f);
+	auto textComponent = std::shared_ptr<TextComponent>(new TextComponent(
+		m_name, "Player", "LiberationMono-Regular.ttf", 48
+	));
+	m_name->addComponent("text", textComponent);
+
 	setCameraView(std::shared_ptr<CameraView>(new FollowView(m_reference, glm::vec3(0.0f, 0.0f, 15.0f))));
 
-	setCamera(std::shared_ptr<Camera>(new OrthoCamera(m_cameraView, -4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f)));
+	float cameraLeft = -4.0f;
+	float cameraRight = 4.0f;
+	float cameraBottom = -3.0f;
+	float cameraTop = 3.0f;
+	config_setCameraSize(cameraRight - cameraLeft, cameraTop - cameraBottom);
+	setCamera(std::shared_ptr<Camera>(new OrthoCamera(m_cameraView, cameraLeft, cameraRight, cameraBottom, cameraTop, 0.1f, 100.0f)));
+
+	auto uiCameraView = std::shared_ptr<CameraView>(new FixedView(glm::vec3(0.0f, 0.0f, 1.0f)));
+	uiCameraView->update();
+	m_UICamera = std::shared_ptr<Camera>(new OrthoCamera(uiCameraView, 0.0f, 1280.0f, 0.0f, 960.0f));
 	return true;
 }
 
@@ -72,5 +99,7 @@ void GameScene::update(StateMachine<SceneState> &stateMachine) {
 
 void GameScene::render() {
 	m_board.render(m_camera);
-	m_reference->render(m_camera, &m_spriteRenderer);
+	m_reference->render(m_camera);
+	m_UIText->render(m_UICamera);
+	m_name->render(m_camera);
 }

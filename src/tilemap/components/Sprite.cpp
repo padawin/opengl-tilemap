@@ -9,8 +9,7 @@ SpriteComponent::SpriteComponent(
 	unsigned int x, unsigned int y,
 	unsigned int sheetWidth, unsigned int sheetHeight
 ) :
-	Component(owner),
-	m_renderer(renderer),
+	RendererComponent(owner, renderer),
 	m_iTexture(textureID),
 	m_fWidth(width),
 	m_fHeight(height),
@@ -21,7 +20,7 @@ SpriteComponent::SpriteComponent(
 {
 }
 
-void SpriteComponent::render() {
+void SpriteComponent::render(std::shared_ptr<Camera> camera) {
 	m_renderer->setTexture("spriteSheet", m_iTexture);
 	m_renderer->setUniform("width", m_fWidth);
 	m_renderer->setUniform("height", m_fHeight);
@@ -29,4 +28,5 @@ void SpriteComponent::render() {
 	m_renderer->setUniform("y", m_iY);
 	m_renderer->setUniform("sheetWidth", m_iSheetWidth);
 	m_renderer->setUniform("sheetHeight", m_iSheetHeight);
+	RendererComponent::render(camera);
 }

@@ -1,11 +1,17 @@
 #include "Tilemap.hpp"
+#include "game/Component.hpp"
+#include "opengl/components/Renderer.hpp"
 #include "renderers.hpp"
 #include "stb_image.h"
 
 bool Tilemap::init(std::string filePath) {
 	TilemapReader reader;
+	m_layer = std::shared_ptr<GameObject>(new GameObject());
 	if (reader.process(filePath, this)) {
 		renderer_initTilemapRenderer(&m_renderer, (float) m_iWidth, (float) m_iHeight);
+		m_layer->addComponent("renderer", std::shared_ptr<Component>(
+			new RendererComponent(m_layer, std::shared_ptr<ObjectRenderer>(&m_renderer))
+		));
 		return true;
 	}
 	return false;
@@ -16,8 +22,8 @@ void Tilemap::render(std::shared_ptr<Camera> camera) {
 		m_renderer.setTextures(layer.textures);
 		m_renderer.setUniform("tileAtlasWidth", layer.atlasWidth);
 		m_renderer.setUniform("tileAtlasHeight", layer.atlasHeight);
-		m_layer.setPosition(0.0f, 0.0f, layer.zPos);
-		m_layer.render(camera, &m_renderer);
+		m_layer->setPosition(0.0f, 0.0f, layer.zPos);
+		m_layer->render(camera);
 	}
 }
 

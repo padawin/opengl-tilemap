@@ -2,6 +2,7 @@
 #define __COMPONENT__
 
 #include <memory>
+#include "Camera.hpp"
 
 class GameObject;
 
@@ -14,7 +15,7 @@ class Component {
 	virtual ~Component() {}
 	virtual void init();
 	virtual void update();
-	virtual void render();
+	virtual void render(std::shared_ptr<Camera> camera);
 };
 
 #endif

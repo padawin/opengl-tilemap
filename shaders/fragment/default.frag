@@ -5,8 +5,6 @@ in vec2 TexCoord;
 
 uniform sampler2D ourTexture;
 uniform vec3 color;
-//uniform sampler2D tileAtlas;
-//uniform sampler2D tilemap;
 
 void main()
 {

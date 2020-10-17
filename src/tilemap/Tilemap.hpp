@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 #include "game/Camera.hpp"
+#include "game/GameObject.hpp"
 #include "opengl/ObjectRenderer.hpp"
-#include "TilemapLayer.hpp"
 #include "TilemapReader.hpp"
 #include "opengl/texture.hpp"
 
@@ -16,7 +16,7 @@ class Tilemap {
 	int m_iHeight = 0;
 	std::vector<TilemapLayerData> m_vLayers = {};
 	std::map<std::string, std::vector<char>> m_mTileProperties = {};
-	TilemapLayer m_layer = TilemapLayer();
+	std::shared_ptr<GameObject> m_layer = 0;
 	ObjectRenderer m_renderer = ObjectRenderer();
 
 	long _getTileIndexFromCoord(float x, float y) const;

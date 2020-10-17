@@ -21,9 +21,10 @@ class GameObject {
 	virtual void init() {};
 	virtual void setPosition(float x, float y, float z);
 	virtual glm::vec3 getPosition() const;
+	virtual glm::vec3 getRotation() const;
+	virtual glm::vec3 getScale() const;
 	virtual void update();
-	virtual void render(std::shared_ptr<Camera> camera, GameObjectRenderer *renderer);
-	virtual void render(std::shared_ptr<Camera> camera, GameObjectRenderer *renderer, glm::vec3 position, glm::vec3 angle, glm::vec3 scale);
+	virtual void render(std::shared_ptr<Camera> camera);
 	virtual void addComponent(std::string name, std::shared_ptr<Component> component);
 	virtual void initComponents();
 	virtual std::shared_ptr<Component> getComponent(std::string name);

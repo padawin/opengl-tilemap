@@ -7,18 +7,10 @@ void GameObject::update() {
 	}
 }
 
-void GameObject::render(std::shared_ptr<Camera> camera, GameObjectRenderer *renderer) {
-	render(camera, renderer, m_position, m_angle, m_scale);
-}
-
-void GameObject::render(std::shared_ptr<Camera> camera, GameObjectRenderer *renderer, glm::vec3 position, glm::vec3 angle, glm::vec3 scale) {
+void GameObject::render(std::shared_ptr<Camera> camera) {
 	for (auto component : m_mComponents) {
-		component.second->render();
+		component.second->render(camera);
 	}
-	renderer->setPosition(position.x, position.y, position.z);
-	renderer->setRotation(angle.x, angle.y, angle.z);
-	renderer->setScale(scale.x, scale.y, scale.z);
-	renderer->render(camera);
 }
 
 void GameObject::setPosition(float x, float y, float z) {
@@ -27,6 +19,14 @@ void GameObject::setPosition(float x, float y, float z) {
 
 glm::vec3 GameObject::getPosition() const {
 	return m_position;
+}
+
+glm::vec3 GameObject::getRotation() const {
+	return m_angle;
+}
+
+glm::vec3 GameObject::getScale() const {
+	return m_scale;
 }
 
 void GameObject::addComponent(std::string name, std::shared_ptr<Component> component) {

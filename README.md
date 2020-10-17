@@ -1,4 +1,4 @@
-# Tetris
+# Tilemap
 
 ## Requirements
 
@@ -8,6 +8,7 @@ Tested on linux with:
 	glfw3
 	glm
 	OpenGL 3.3
+	Freetype2 (libfreetype6-dev)
 
 ## Compilation
 

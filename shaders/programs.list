@@ -1,3 +1,4 @@
 default default.vert default.frag
 sprite sprite.vert sprite.frag
 tilemap default.vert tilemap.frag
+text text.vert text.frag

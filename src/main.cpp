@@ -15,6 +15,7 @@
 #include "opengl/Renderer.hpp"
 #include "opengl/shader.hpp"
 #include "opengl/texture.hpp"
+#include "opengl/font.hpp"
 
 #include "tilemap/scene/Game.hpp"
 
@@ -29,6 +30,7 @@ int main(int argc, char* args[]) {
 	time_t t;
 	srand((unsigned int) time(&t));
 
+	config_setScreenSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!_setBinaryPath(argc, args)) {
 		return 1;
 	}
@@ -49,11 +51,14 @@ int main(int argc, char* args[]) {
 	if (g.init()
 		&& shader_loadPrograms()
 		&& texture_loadAll()
+		&& font_init()
+		&& font_loadAll()
 	) {
 		stateMachine.pushState(new GameScene(userActions));
 		g.mainLoop();
 	}
 
+	font_clear();
 	g.shutdown();
 	return 0;
 }

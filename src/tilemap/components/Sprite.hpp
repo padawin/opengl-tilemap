@@ -1,13 +1,10 @@
 #ifndef __COMPONENT_SPRITE__
 #define __COMPONENT_SPRITE__
 
-#include "game/Component.hpp"
-#include "opengl/ObjectRenderer.hpp"
-#include <string>
+#include "opengl/components/Renderer.hpp"
 
-class SpriteComponent : public Component {
+class SpriteComponent : public RendererComponent {
 	private:
-	std::shared_ptr<ObjectRenderer> m_renderer;
 	unsigned int m_iTexture;
 	float m_fWidth;
 	float m_fHeight;
@@ -24,8 +21,8 @@ class SpriteComponent : public Component {
 		float width, float height,
 		unsigned int x, unsigned int y,
 		unsigned int sheetWidth, unsigned int sheetHeight
-		);
-	void render();
+	);
+	void render(std::shared_ptr<Camera> camera);
 };
 
 #endif

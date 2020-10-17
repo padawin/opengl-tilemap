@@ -4,13 +4,12 @@
 #include <string>
 #include <memory>
 #include <map>
-#include "game/Component.hpp"
+#include "opengl/components/Renderer.hpp"
 #include "opengl/ObjectRenderer.hpp"
 #include "tilemap/Animation.hpp"
 
-class AnimationComponent : public Component {
+class AnimationComponent : public RendererComponent {
 	private:
-	std::shared_ptr<ObjectRenderer> m_renderer;
 	std::map<std::string, std::shared_ptr<Animation>> m_mAnimations = {};
 	std::string m_sCurrentAnimation = "";
 
@@ -20,7 +19,7 @@ class AnimationComponent : public Component {
 	void start(std::string name);
 	void stop();
 	void update();
-	void render();
+	void render(std::shared_ptr<Camera> camera);
 };
 
 #endif
