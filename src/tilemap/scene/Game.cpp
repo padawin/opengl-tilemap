@@ -8,6 +8,7 @@
 #include "opengl/texture.hpp"
 #include "game/config.hpp"
 #include "opengl/OrthoCamera.hpp"
+#include "game/config.hpp"
 #include "game/cameraView/Follow.hpp"
 #include "game/cameraView/Fixed.hpp"
 
@@ -56,7 +57,12 @@ bool GameScene::onEnter() {
 	m_reference->setPosition(0.0f, 0.0f, 1.0f);
 	setCameraView(std::shared_ptr<CameraView>(new FollowView(m_reference, glm::vec3(0.0f, 0.0f, 15.0f))));
 
-	setCamera(std::shared_ptr<Camera>(new OrthoCamera(m_cameraView, -4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f)));
+	float cameraLeft = -4.0f;
+	float cameraRight = 4.0f;
+	float cameraBottom = -3.0f;
+	float cameraTop = 3.0f;
+	config_setCameraSize(cameraRight - cameraLeft, cameraTop - cameraBottom);
+	setCamera(std::shared_ptr<Camera>(new OrthoCamera(m_cameraView, cameraLeft, cameraRight, cameraBottom, cameraTop, 0.1f, 100.0f)));
 
 	auto uiCameraView = std::shared_ptr<CameraView>(new FixedView(glm::vec3(0.0f, 0.0f, 1.0f)));
 	uiCameraView->update();

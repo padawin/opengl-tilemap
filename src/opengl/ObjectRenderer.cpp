@@ -165,6 +165,8 @@ void ObjectRenderer::render(std::shared_ptr<Camera> camera) {
 
 	int screenWidthLocation = glGetUniformLocation(shaderProgram, "screenWidth");
 	int screenHeightLocation = glGetUniformLocation(shaderProgram, "screenHeight");
+	int cameraWidthLocation = glGetUniformLocation(shaderProgram, "cameraWidth");
+	int cameraHeightLocation = glGetUniformLocation(shaderProgram, "cameraHeight");
 	int timeLocation = glGetUniformLocation(shaderProgram, "currentTime");
 	int transformLocation = glGetUniformLocation(shaderProgram, "model");
 	int viewLocation = glGetUniformLocation(shaderProgram, "view");
@@ -175,6 +177,8 @@ void ObjectRenderer::render(std::shared_ptr<Camera> camera) {
 	glUniform1f(timeLocation, timeValue);
 	glUniform1i(screenWidthLocation, config_getScreenWidth());
 	glUniform1i(screenHeightLocation, config_getScreenHeight());
+	glUniform1f(cameraWidthLocation, config_getCameraWidth());
+	glUniform1f(cameraHeightLocation, config_getCameraHeight());
 	glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
 	glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
