@@ -4,7 +4,7 @@
 #include "opengl/texture.hpp"
 #include "tilemap/renderers.hpp"
 
-TextComponent::TextComponent(std::shared_ptr<GameObject> owner, std::string text, std::string font, unsigned int size) :
+TextComponent::TextComponent(std::shared_ptr<GameObject> owner, std::wstring text, std::string font, unsigned int size) :
 	RendererComponent(owner, std::shared_ptr<ObjectRenderer>(new ObjectRenderer()))
 {
 	long unsigned sizeVertices = text.length() * 30 * sizeof(float);

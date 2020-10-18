@@ -10,7 +10,7 @@ class TextComponent : public RendererComponent {
 	glm::vec3 m_color = glm::vec3(1.0f, 1.0f, 1.0f);
 
 	public:
-	TextComponent(std::shared_ptr<GameObject> owner, std::string text, std::string font, unsigned int size);
+	TextComponent(std::shared_ptr<GameObject> owner, std::wstring text, std::string font, unsigned int size);
 	void render(std::shared_ptr<Camera> camera);
 	void setColor(glm::vec3 color);
 	void setUI();

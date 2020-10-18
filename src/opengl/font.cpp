@@ -111,7 +111,7 @@ bool _createTextureAtlases() {
 		// w = sum(width each char)
 		int atlasWidth = 0;
 		int atlasHeight = 0;
-		for (long unsigned int c = 32; c < 128; c++) {
+		for (long unsigned int c = 32; c < 256; c++) {
 			if(FT_Load_Char(fontFaces[fontName], c, FT_LOAD_RENDER)) {
 				fprintf(stderr, "Loading character %c failed!\n", (char) c);
 				continue;
@@ -122,7 +122,7 @@ bool _createTextureAtlases() {
 		}
 		texture_init(fontSize, atlasWidth, atlasHeight);
 		int xInAtlas = 0;
-		for (long unsigned int c = 32; c < 128; c++) {
+		for (long unsigned int c = 32; c < 256; c++) {
 			if (FT_Load_Char(fontFaces[fontName], c, FT_LOAD_RENDER)) {
 				fprintf(stderr, "Loading character %c failed!\n", (char) c);
 			}

@@ -60,7 +60,7 @@ bool GameScene::onEnter() {
 	m_UIText = std::shared_ptr<GameObject>(new GameObject);
 	m_UIText->setPosition(1.0f, 1.0f, 0.0f);
 	auto uiTextComponent = std::shared_ptr<TextComponent>(new TextComponent(
-		m_UIText, "UI Text", "LiberationMono-Regular.ttf", 48
+		m_UIText, L"UI Textéàöß", "LiberationMono-Regular.ttf", 48
 	));
 	uiTextComponent->setColor(glm::vec3(0.234f, 0.894f, 0.01f));
 	uiTextComponent->setUI();
@@ -69,7 +69,7 @@ bool GameScene::onEnter() {
 	m_name = std::shared_ptr<GameObject>(new GameObject);
 	m_name->setPosition(1.0f, 1.0f, 0.0f);
 	auto textComponent = std::shared_ptr<TextComponent>(new TextComponent(
-		m_name, "Player", "LiberationMono-Regular.ttf", 48
+		m_name, L"Player", "LiberationMono-Regular.ttf", 48
 	));
 	m_name->addComponent("text", textComponent);
 
