@@ -15,6 +15,7 @@ class SceneState : public State {
 	std::shared_ptr<CameraView> m_UICameraView = nullptr;
 	float m_fDeltaTime = 0.0f; // Time between current frame and last frame
 	double m_fLastFrame = 0.0f; // Time of last frame
+	void _preUpdate();
 	void _update();
 
 	public:

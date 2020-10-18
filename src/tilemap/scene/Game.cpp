@@ -87,13 +87,12 @@ bool GameScene::onEnter() {
 }
 
 void GameScene::update(StateMachine<SceneState> &stateMachine) {
-	_update();
+	_preUpdate();
 	if (m_userActions.getActionState("QUIT")) {
 		stateMachine.clean();
 		return;
 	}
-	m_cameraView->update();
-	uiCameraView->update();
+	_update();
 	m_reference->update();
 }
 
