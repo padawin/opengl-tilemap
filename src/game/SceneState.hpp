@@ -11,6 +11,8 @@ class SceneState : public State {
 	UserActions &m_userActions;
 	std::shared_ptr<Camera> m_camera = nullptr;
 	std::shared_ptr<CameraView> m_cameraView = nullptr;
+	std::shared_ptr<Camera> m_UICamera = nullptr;
+	std::shared_ptr<CameraView> m_UICameraView = nullptr;
 	float m_fDeltaTime = 0.0f; // Time between current frame and last frame
 	double m_fLastFrame = 0.0f; // Time of last frame
 	void _update();
@@ -21,6 +23,8 @@ class SceneState : public State {
 	virtual void update(StateMachine<SceneState> &stateMachine) = 0;
 	void setCamera(std::shared_ptr<Camera> camera);
 	void setCameraView(std::shared_ptr<CameraView> cameraView);
+	void setUICamera(std::shared_ptr<Camera> camera);
+	void setUICameraView(std::shared_ptr<CameraView> cameraView);
 };
 
 #endif
