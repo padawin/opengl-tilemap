@@ -89,8 +89,12 @@ TextComponent::TextComponent(std::shared_ptr<GameObject> owner, std::string text
 void TextComponent::render(std::shared_ptr<Camera> camera) {
 	m_renderer->setUniform("isUI", m_bIsUI);
 	m_renderer->setTexture("atlas", m_iAtlasTextureID);
-	m_renderer->setUniform("color", glm::vec3(0.187f, 0.488f, 0.805f));
+	m_renderer->setUniform("color", m_color);
 	RendererComponent::render(camera);
+}
+
+void TextComponent::setColor(glm::vec3 color) {
+	m_color = color;
 }
 
 void TextComponent::setUI() {

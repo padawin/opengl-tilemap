@@ -62,6 +62,7 @@ bool GameScene::onEnter() {
 	auto uiTextComponent = std::shared_ptr<TextComponent>(new TextComponent(
 		m_UIText, "UI Text", "LiberationMono-Regular.ttf", 48
 	));
+	uiTextComponent->setColor(glm::vec3(0.234f, 0.894f, 0.01f));
 	uiTextComponent->setUI();
 	m_UIText->addComponent("text", uiTextComponent);
 
