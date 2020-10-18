@@ -2,7 +2,6 @@
 #include "Text.hpp"
 #include "opengl/font.hpp"
 #include "opengl/texture.hpp"
-#include "tilemap/renderers.hpp"
 
 TextComponent::TextComponent(std::shared_ptr<GameObject> owner, std::wstring text, std::string font, unsigned int size) :
 	RendererComponent(owner, std::shared_ptr<ObjectRenderer>(new ObjectRenderer()))
