@@ -1,4 +1,5 @@
 #include "Animation.hpp"
+#include <GLFW/glfw3.h>
 #include <math.h>
 
 #define EPSILON 0.01
