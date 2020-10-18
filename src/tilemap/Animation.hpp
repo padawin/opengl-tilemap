@@ -2,7 +2,6 @@
 #define __ANIMATION__
 
 #include <vector>
-#include <GLFW/glfw3.h>
 #include "tilemap/sprite.hpp"
 
 class Animation {

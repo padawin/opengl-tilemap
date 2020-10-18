@@ -81,19 +81,18 @@ bool GameScene::onEnter() {
 	config_setCameraSize(cameraRight - cameraLeft, cameraTop - cameraBottom);
 	setCamera(std::shared_ptr<Camera>(new OrthoCamera(m_cameraView, cameraLeft, cameraRight, cameraBottom, cameraTop, 0.1f, 100.0f)));
 
-	auto uiCameraView = std::shared_ptr<CameraView>(new FixedView(glm::vec3(0.0f, 0.0f, 1.0f)));
-	uiCameraView->update();
-	m_UICamera = std::shared_ptr<Camera>(new OrthoCamera(uiCameraView, 0.0f, 1280.0f, 0.0f, 960.0f));
+	setUICameraView(std::shared_ptr<CameraView>(new FixedView(glm::vec3(0.0f, 0.0f, 1.0f))));
+	setUICamera(std::shared_ptr<Camera>(new OrthoCamera(m_UICameraView, 0.0f, 1280.0f, 0.0f, 960.0f)));
 	return true;
 }
 
 void GameScene::update(StateMachine<SceneState> &stateMachine) {
-	_update();
+	_preUpdate();
 	if (m_userActions.getActionState("QUIT")) {
 		stateMachine.clean();
 		return;
 	}
-	m_cameraView->update();
+	_update();
 	m_reference->update();
 }
 
