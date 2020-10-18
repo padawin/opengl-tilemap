@@ -18,7 +18,7 @@ typedef struct {
 } CharacterInfo;
 
 typedef struct {
-	CharacterInfo characterInfo[128];
+	CharacterInfo characterInfo[256];
 } FontInfo;
 
 bool font_init();

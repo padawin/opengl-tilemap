@@ -4,7 +4,7 @@
 #include "opengl/texture.hpp"
 #include "tilemap/renderers.hpp"
 
-TextComponent::TextComponent(std::shared_ptr<GameObject> owner, std::string text, std::string font, unsigned int size) :
+TextComponent::TextComponent(std::shared_ptr<GameObject> owner, std::wstring text, std::string font, unsigned int size) :
 	RendererComponent(owner, std::shared_ptr<ObjectRenderer>(new ObjectRenderer()))
 {
 	long unsigned sizeVertices = text.length() * 30 * sizeof(float);
@@ -89,8 +89,12 @@ TextComponent::TextComponent(std::shared_ptr<GameObject> owner, std::string text
 void TextComponent::render(std::shared_ptr<Camera> camera) {
 	m_renderer->setUniform("isUI", m_bIsUI);
 	m_renderer->setTexture("atlas", m_iAtlasTextureID);
-	m_renderer->setUniform("color", glm::vec3(0.187f, 0.488f, 0.805f));
+	m_renderer->setUniform("color", m_color);
 	RendererComponent::render(camera);
+}
+
+void TextComponent::setColor(glm::vec3 color) {
+	m_color = color;
 }
 
 void TextComponent::setUI() {
